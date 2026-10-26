@@ -234,8 +234,10 @@
 
   /* Collaboration */
   .collab { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .collab-note { color: var(--muted); font-size: .9rem; margin-top: 14px; }
-  .offers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .collab-note { color: var(--muted); font-size: .9rem; margin-top: 14px; overflow-wrap: anywhere; }
+  .collab > *, .shop > * { min-width: 0; }
+  .offers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 360px) { .offers { grid-template-columns: 1fr; } }
   .offer {
     background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px;
     display: flex; flex-direction: column; gap: 4px;
@@ -317,11 +319,11 @@
     <div class="nav-right">
       <div class="nav-links">
         <a href="#om-oss" data-en="About">Om oss</a>
+        <a href="#oppskrifter" data-en="Recipes">Oppskrifter</a>
         <a href="#videoer" data-en="Videos">Videoer</a>
         <a href="#kart" data-en="Map" hidden>Kart</a>
         <a href="#galleri" data-en="Gallery" hidden>Galleri</a>
         <a href="#utstyr" data-en="Gear">Utstyr</a>
-        <a href="#oppskrifter" data-en="Recipes">Oppskrifter</a>
         <a href="#samarbeid" data-en="Partnerships">Samarbeid</a>
         <a href="#kontakt" data-en="Contact">Kontakt</a>
       </div>
@@ -373,6 +375,36 @@
         <div class="stat"><b>1</b><span data-en="motorhome">bobil</span></div>
         <div class="stat"><b>∞</b><span data-en="adventures">eventyr</span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="oppskrifter" style="padding-top:0">
+  <div class="wrap shop">
+    <div class="book-wrap reveal">
+      <img class="book-cover" src="hefte-forside.jpg" alt="Forsiden av oppskriftsheftet Sunantha's Thailandsk kjøkken – 15 oppskrifter">
+    </div>
+    <div class="reveal">
+      <span class="label" data-en="Our recipe book (in Norwegian)">Oppskriftsheftet vårt</span>
+      <h2>Sunantha's Thailandsk kjøkken</h2>
+      <p class="lead" data-en="Sunantha grew up with Thai food – inspired by her mother and older sister, who both worked as chefs in Thailand. After many requests from you, we've gathered our favourite dishes: from &lt;i&gt;Mum's spring rolls&lt;/i&gt; to Morten's favourite green curry. Authentic Thai food that works just as well in a small motorhome kitchen as at home.">Sunantha har vokst opp med thaimat – med inspirasjon fra moren og storesøsteren, som begge jobbet som kokker i Thailand. Etter mange forespørsler fra dere har vi samlet favorittrettene våre: fra <i>Mammas vårruller</i> til Mortens favoritt, grønn curry. Autentisk thaimat som fungerer like godt på et lite bobilkjøkken som hjemme.</p>
+      <ul class="shop-list">
+        <li data-en="&lt;b&gt;15 recipes&lt;/b&gt; – curries, wok dishes, noodles, dumplings and more"><b>15 oppskrifter</b> – curry, wok, nudler, dumplings og mer</li>
+        <li data-en="&lt;b&gt;2 step-by-step guides&lt;/b&gt; with photos – folding spring rolls and dumplings"><b>2 steg-for-steg-guider</b> med bilder – brett vårruller og dumplings</li>
+        <li data-en="Guide to the basic sauces and spices of Thai cooking">Guide til grunnleggende sauser og krydder</li>
+        <li data-en="22 pages as PDF – instant download">22 sider som PDF – last ned med en gang</li>
+        <li data-en="Read on your phone or tablet – or print it">Les på mobil og nettbrett – eller skriv ut</li>
+        <li data-en="Secure payment – sent automatically by email">Trygg betaling – sendes automatisk på e-post</li>
+      </ul>
+      <div class="buy">
+        <!-- PAYHIP: produktkoden er den siste delen av lenken payhip.com/b/F54Be -->
+        <a class="btn btn-primary payhip-buy-button" href="https://payhip.com/b/F54Be" data-theme="none" data-product="F54Be">
+<span data-en="Buy now – 150 NOK">Kjøp nå – 150 kr</span></a>
+        <div class="pay-methods" aria-label="Betalingsmåter">
+          <span data-en="Card">Kort</span><span>Apple Pay</span><span>Google Pay</span><!-- <span>PayPal</span> – legg tilbake når PayPal er koblet til i Payhip -->
+        </div>
+      </div>
+      <p class="collab-note" data-en="Secure checkout via Payhip. Works from all countries.">Trygg betaling via Payhip. Fungerer fra alle land.</p>
     </div>
   </div>
 </section>
@@ -453,36 +485,6 @@
         </div>
         <p class="ad"><b data-en="Ad">Reklame</b><span data-en="This is an affiliate link. If you buy through it, we get a small commission – at no extra cost to you.">Dette er en affiliate-lenke. Kjøper du via den, får vi en liten provisjon – uten at det koster deg noe ekstra.</span></p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="oppskrifter">
-  <div class="wrap shop">
-    <div class="book-wrap reveal">
-      <img class="book-cover" src="hefte-forside.jpg" alt="Forsiden av oppskriftsheftet Sunantha's Thailandsk kjøkken – 15 oppskrifter">
-    </div>
-    <div class="reveal">
-      <span class="label" data-en="Our recipe book (in Norwegian)">Oppskriftsheftet vårt</span>
-      <h2>Sunantha's Thailandsk kjøkken</h2>
-      <p class="lead" data-en="Sunantha grew up with Thai food – inspired by her mother and older sister, who both worked as chefs in Thailand. After many requests from you, we've gathered our favourite dishes: from &lt;i&gt;Mum's spring rolls&lt;/i&gt; to Morten's favourite green curry. Authentic Thai food that works just as well in a small motorhome kitchen as at home.">Sunantha har vokst opp med thaimat – med inspirasjon fra moren og storesøsteren, som begge jobbet som kokker i Thailand. Etter mange forespørsler fra dere har vi samlet favorittrettene våre: fra <i>Mammas vårruller</i> til Mortens favoritt, grønn curry. Autentisk thaimat som fungerer like godt på et lite bobilkjøkken som hjemme.</p>
-      <ul class="shop-list">
-        <li data-en="&lt;b&gt;15 recipes&lt;/b&gt; – curries, wok dishes, noodles, dumplings and more"><b>15 oppskrifter</b> – curry, wok, nudler, dumplings og mer</li>
-        <li data-en="&lt;b&gt;2 step-by-step guides&lt;/b&gt; with photos – folding spring rolls and dumplings"><b>2 steg-for-steg-guider</b> med bilder – brett vårruller og dumplings</li>
-        <li data-en="Guide to the basic sauces and spices of Thai cooking">Guide til grunnleggende sauser og krydder</li>
-        <li data-en="22 pages as PDF – instant download">22 sider som PDF – last ned med en gang</li>
-        <li data-en="Read on your phone or tablet – or print it">Les på mobil og nettbrett – eller skriv ut</li>
-        <li data-en="Secure payment – sent automatically by email">Trygg betaling – sendes automatisk på e-post</li>
-      </ul>
-      <div class="buy">
-        <!-- PAYHIP: produktkoden er den siste delen av lenken payhip.com/b/F54Be -->
-        <a class="btn btn-primary payhip-buy-button" href="https://payhip.com/b/F54Be" data-theme="none" data-product="F54Be">
-<span data-en="Buy now – 150 NOK">Kjøp nå – 150 kr</span></a>
-        <div class="pay-methods" aria-label="Betalingsmåter">
-          <span data-en="Card">Kort</span><span>Apple Pay</span><span>Google Pay</span><!-- <span>PayPal</span> – legg tilbake når PayPal er koblet til i Payhip -->
-        </div>
-      </div>
-      <p class="collab-note" data-en="Secure checkout via Payhip. Works from all countries.">Trygg betaling via Payhip. Fungerer fra alle land.</p>
     </div>
   </div>
 </section>
