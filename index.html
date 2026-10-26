@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<!-- Kart (skjult foreløpig): fjern kommentaren rundt Leaflet her og nederst, og sett VIS_KART_OG_GALLERI = true -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"> -->
 <style>
   :root {
     --bg: #fff8f1;
@@ -298,8 +299,8 @@
       <div class="nav-links">
         <a href="#om-oss" data-en="About">Om oss</a>
         <a href="#videoer" data-en="Videos">Videoer</a>
-        <a href="#kart" data-en="Map">Kart</a>
-        <a href="#galleri" data-en="Gallery">Galleri</a>
+        <a href="#kart" data-en="Map" hidden>Kart</a>
+        <a href="#galleri" data-en="Gallery" hidden>Galleri</a>
         <a href="#utstyr" data-en="Gear">Utstyr</a>
         <a href="#samarbeid" data-en="Partnerships">Samarbeid</a>
         <a href="#kontakt" data-en="Contact">Kontakt</a>
@@ -378,7 +379,7 @@
   </div>
 </section>
 
-<section id="kart">
+<section id="kart" hidden>
   <div class="wrap">
     <div class="section-head reveal">
       <div>
@@ -392,7 +393,7 @@
   </div>
 </section>
 
-<section id="galleri" style="padding-top:0">
+<section id="galleri" style="padding-top:0" hidden>
   <div class="wrap">
     <div class="section-head reveal">
       <div>
@@ -406,7 +407,7 @@
   </div>
 </section>
 
-<section id="utstyr" class="dark">
+<section id="utstyr" class="dark" style="margin-top:24px">
   <div class="wrap">
     <div class="reveal">
       <span class="label" data-en="Our gear">Utstyret vårt</span>
@@ -490,7 +491,7 @@
   <div class="wrap reveal">
     <span class="label" data-en="Contact">Kontakt</span>
     <h2 data-en="Say hi!">Si hei!</h2>
-    <p class="lead" data-en="Collaboration, questions or just want to say hi? Send us a message.">Samarbeid, spørsmål eller bare lyst til å si hei? Send oss en melding.</p>
+    <p class="lead" data-en="Questions or just want to say hi? Send us a message.">Spørsmål eller bare lyst til å si hei? Send oss en melding.</p>
     <a class="mail" href="mailto:sunanthaogmorten@gmail.com">sunanthaogmorten@gmail.com</a>
   </div>
 </section>
@@ -511,9 +512,14 @@
   <div><img id="lb-img" alt=""><p id="lb-cap"></p></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script> -->
 <script>
   const CHANNEL_ID = 'UC_PqG28Sm1SOlMm27SRq1rQ';
+  // Kart og galleri er skjult mens vi jobber videre med dem. Sett til true for å vise dem igjen.
+  const VIS_KART_OG_GALLERI = false;
+  if (VIS_KART_OG_GALLERI) {
+    document.querySelectorAll('#kart, #galleri, a[href="#kart"], a[href="#galleri"]').forEach(el => { el.hidden = false; });
+  }
   const thumb = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
   const watch = id => `https://www.youtube.com/watch?v=${id}`;
 
@@ -595,16 +601,20 @@
     });
 
   // ====== KART ======
-  const map = L.map('map', { scrollWheelZoom: false });
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 18,
-  }).addTo(map);
-  const icon = L.divIcon({ className: '', html: '<div class="marker"></div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -12] });
-  const layer = L.layerGroup().addTo(map);
+  const kartPå = VIS_KART_OG_GALLERI && typeof L !== 'undefined';
+  const map = kartPå ? L.map('map', { scrollWheelZoom: false }) : null;
+  if (kartPå) {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18,
+    }).addTo(map);
+  }
+  const icon = kartPå ? L.divIcon({ className: '', html: '<div class="marker"></div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -12] }) : null;
+  const layer = kartPå ? L.layerGroup().addTo(map) : null;
   let filter = 'all';
 
   function renderMarkers(fit = true) {
+    if (!kartPå) return;
     layer.clearLayers();
     const shown = places.filter(p => filter === 'all' || p.country === filter);
     shown.forEach(p => {
@@ -617,6 +627,7 @@
   }
 
   function renderChips() {
+    if (!kartPå) return;
     const box = document.getElementById('chips');
     box.innerHTML = '';
     ['all', 'no', 'se', 'it'].forEach(c => {
@@ -633,6 +644,7 @@
   // ====== GALLERI ======
   const lb = document.getElementById('lightbox');
   function renderGallery() {
+    if (!VIS_KART_OG_GALLERI) return;
     const box = document.getElementById('gallery');
     box.innerHTML = '';
     gallery.forEach(g => {
@@ -669,7 +681,7 @@
       if (e.isIntersecting) {
         e.target.classList.add('in');
         io.unobserve(e.target);
-        if (e.target.querySelector('#map')) setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 300);
+        if (kartPå && e.target.querySelector('#map')) setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 300);
       }
     });
   }, { threshold: 0.15 });
