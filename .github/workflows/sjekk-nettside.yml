@@ -1,0 +1,49 @@
+name: Sjekk nettsiden
+
+# Sjekker hvert 30. minutt at nettsiden virker. Feiler sjekken, sender GitHub en e-post.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      test_feil:
+        description: "Lat som siden er nede (for å teste at varselet kommer)"
+        type: boolean
+        default: false
+
+jobs:
+  sjekk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sjekk sunanthaogmorten.no og sunanthaogmorten.com
+        env:
+          TEST_FEIL: ${{ inputs.test_feil }}
+        run: |
+          if [ "$TEST_FEIL" = "true" ]; then
+            echo "::error::Testvarsel: dette er en planlagt test, nettsiden er ikke nede."
+            exit 1
+          fi
+
+          sjekk() {
+            # Hovedsiden svarer over HTTPS og har innholdet vi forventer
+            html=$(curl -fsSL --max-time 20 https://sunanthaogmorten.no/) || { echo "sunanthaogmorten.no svarer ikke (eller HTTPS-feil)"; return 1; }
+            echo "$html" | grep -q "Sunantha" || { echo "Forsiden mangler forventet innhold"; return 1; }
+            echo "$html" | grep -q "payhip.com/b/" || { echo "Kjøpsknappen for oppskriftsheftet mangler"; return 1; }
+
+            # .com sender videre til .no
+            mal=$(curl -s -o /dev/null -L --max-time 20 -w '%{url_effective}' http://sunanthaogmorten.com/)
+            case "$mal" in
+              https://sunanthaogmorten.no*) ;;
+              *) echo "sunanthaogmorten.com sender ikke videre til .no (havnet på: $mal)"; return 1 ;;
+            esac
+            echo "Alt OK"
+          }
+
+          # Prøv tre ganger med litt pause, så et kort blaff ikke gir falsk alarm
+          for forsok in 1 2 3; do
+            if sjekk; then exit 0; fi
+            echo "Forsøk $forsok feilet, prøver igjen om 60 sekunder …"
+            sleep 60
+          done
+          echo "::error::Nettsiden ser ut til å være nede eller feil satt opp. Se loggen over."
+          exit 1
