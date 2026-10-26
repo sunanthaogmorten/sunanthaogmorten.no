@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunantha &amp; Morten</title>
+<meta name="description" content="Sunantha & Morten – bobilreiser, mat og opplevelser. Følg oss på YouTube, Instagram og Facebook.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root {
+    --bg: #fff8f1;
+    --ink: #1d1a17;
+    --muted: #6b625a;
+    --card: #ffffff;
+    --line: #eadfd3;
+    --sun: #ff8a3d;
+    --rose: #e8487a;
+    --deep: #2a1b3d;
+    --grad: linear-gradient(120deg, var(--sun), var(--rose));
+    --radius: 22px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* Nav */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 1100;
+    transition: background .3s, box-shadow .3s;
+  }
+  nav.scrolled { background: rgba(255,248,241,.92); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .logo { font-family: Fraunces, serif; font-weight: 800; font-size: 1.3rem; }
+  .logo span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .nav-right { display: flex; align-items: center; gap: 26px; }
+  .nav-links { display: flex; gap: 24px; font-weight: 500; font-size: .95rem; }
+  .nav-links a { opacity: .75; transition: opacity .2s; }
+  .nav-links a:hover { opacity: 1; }
+  .lang {
+    display: flex; border: 1px solid var(--line); border-radius: 99px; background: rgba(255,255,255,.8);
+    padding: 3px; font-size: .8rem; font-weight: 600;
+  }
+  .lang button {
+    border: 0; background: none; font: inherit; color: var(--muted); cursor: pointer;
+    padding: 5px 11px; border-radius: 99px; transition: background .2s, color .2s;
+  }
+  .lang button.on { background: var(--ink); color: #fff; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: grid; place-items: center;
+    position: relative; overflow: hidden; padding: 120px 0 80px;
+  }
+  .blob {
+    position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55;
+    animation: float 14s ease-in-out infinite;
+  }
+  .blob.b1 { width: 460px; height: 460px; background: var(--sun); top: -120px; left: -100px; }
+  .blob.b2 { width: 420px; height: 420px; background: var(--rose); bottom: -140px; right: -80px; animation-delay: -5s; }
+  .blob.b3 { width: 260px; height: 260px; background: #ffc95c; top: 40%; left: 60%; animation-delay: -9s; }
+  @keyframes float {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(40px,-30px) scale(1.08); }
+  }
+  .hero-inner { position: relative; width: 100%; display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+  .hero-photo {
+    position: relative; aspect-ratio: 4/5; border-radius: 28px; overflow: hidden;
+    transform: rotate(2deg); border: 8px solid #fff;
+    box-shadow: 0 40px 80px -30px rgba(42,27,61,.55);
+  }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; }
+  .pin {
+    position: absolute; left: 16px; bottom: 16px; font-size: .85rem; font-weight: 600;
+    background: rgba(255,255,255,.92); padding: 8px 14px; border-radius: 99px;
+  }
+  .eyebrow {
+    display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 99px; background: rgba(255,255,255,.7); border: 1px solid var(--line);
+  }
+  h1 {
+    font-family: Fraunces, serif; font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6.5rem); line-height: .95; letter-spacing: -.03em;
+    margin: 24px 0 20px;
+  }
+  h1 .amp { font-style: italic; font-weight: 600; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .05em; }
+  .hero p { font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: var(--muted); max-width: 520px; margin: 0 0 36px; }
+  .btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; font-weight: 600;
+    padding: 15px 26px; border-radius: 99px; transition: transform .2s, box-shadow .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--ink); color: #fff; box-shadow: 0 10px 30px -10px rgba(0,0,0,.4); }
+  .btn-ghost { background: rgba(255,255,255,.8); border: 1px solid var(--line); }
+  .btn svg { width: 20px; height: 20px; }
+  .scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-size: .8rem; color: var(--muted); letter-spacing: .1em; }
+
+  /* Sections */
+  section { padding: 110px 0; }
+  .label { font-size: .8rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--rose); }
+  h2 { font-family: Fraunces, serif; font-weight: 800; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -.02em; margin: 10px 0 18px; }
+  .lead { color: var(--muted); font-size: 1.1rem; max-width: 620px; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .photo {
+    aspect-ratio: 4/5; border-radius: var(--radius); background: var(--grad);
+    position: relative; overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(232,72,122,.6);
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 22% 50%; position: absolute; inset: 0; }
+  .stats { display: flex; gap: 36px; margin-top: 32px; flex-wrap: wrap; }
+  .stat b { display: block; font-family: Fraunces, serif; font-size: 2rem; }
+  .stat span { color: var(--muted); font-size: .9rem; }
+
+  /* Dark sections */
+  .dark { background: var(--deep); color: #fff; border-radius: 40px; margin: 0 12px; }
+  .dark .lead { color: rgba(255,255,255,.7); }
+  .dark .label { color: #ffb37d; }
+  .dark .btn-ghost { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: #fff; }
+  .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 44px; }
+
+  /* Video */
+  .video-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+  .video-side { display: grid; gap: 20px; }
+  .vid {
+    border-radius: 18px; overflow: hidden; background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1); aspect-ratio: 16/9; position: relative;
+  }
+  .vid iframe { width: 100%; height: 100%; border: 0; position: absolute; inset: 0; }
+
+  /* Map */
+  .map-wrap {
+    border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -40px rgba(42,27,61,.5); background: #e9eef0;
+  }
+  #map { height: 560px; width: 100%; }
+  #map .leaflet-tile-pane { filter: saturate(.75) sepia(.12); }
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; font-weight: 600; font-size: .9rem;
+    padding: 9px 16px; border-radius: 99px; cursor: pointer; transition: background .2s, color .2s;
+  }
+  .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .marker {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--grad);
+    border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  }
+  .leaflet-popup-content-wrapper { border-radius: 16px; padding: 0; overflow: hidden; }
+  .leaflet-popup-content { margin: 0; width: 260px !important; font-family: Inter, system-ui, sans-serif; }
+  .pop img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+  .pop div { padding: 12px 14px 14px; }
+  .pop b { display: block; font-size: 1rem; }
+  .pop small { color: var(--muted); display: block; margin: 2px 0 8px; line-height: 1.4; }
+  .pop a { font-weight: 600; color: var(--rose); }
+
+  /* Gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; grid-auto-flow: dense; gap: 14px; }
+  .g { position: relative; border-radius: 16px; overflow: hidden; cursor: zoom-in; background: var(--line); border: 0; padding: 0; }
+  .g img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+  .g:hover img { transform: scale(1.06); }
+  .g span {
+    position: absolute; left: 10px; bottom: 10px; font-size: .78rem; font-weight: 600; color: #fff;
+    background: rgba(0,0,0,.45); backdrop-filter: blur(4px); padding: 5px 10px; border-radius: 99px;
+  }
+  .g.big { grid-column: span 2; grid-row: span 2; }
+  .g.tall { grid-row: span 2; }
+  .lightbox {
+    position: fixed; inset: 0; z-index: 2000; background: rgba(20,14,28,.92);
+    display: none; place-items: center; padding: 20px;
+  }
+  .lightbox.open { display: grid; }
+  .lightbox img { max-width: 100%; max-height: 82vh; border-radius: 14px; display: block; margin: 0 auto; }
+  .lightbox p { color: #fff; text-align: center; margin-top: 14px; }
+  .lightbox p a { color: #ffb37d; font-weight: 600; margin-left: 10px; }
+  .lb-close {
+    position: absolute; top: 18px; right: 18px; width: 46px; height: 46px; border-radius: 50%;
+    border: 0; background: rgba(255,255,255,.15); color: #fff; font-size: 1.4rem; cursor: pointer;
+  }
+
+  /* Gear */
+  .gear { display: grid; grid-template-columns: 1fr 1.2fr; border-radius: 28px; overflow: hidden; background: var(--card); color: var(--ink); margin-top: 44px; }
+  .gear-visual {
+    background: linear-gradient(135deg, #3b2654, #5a3570); color: #fff; padding: 44px;
+    display: flex; flex-direction: column; justify-content: center; gap: 18px; min-height: 340px; position: relative; overflow: hidden;
+  }
+  .gear-visual::after {
+    content: ""; position: absolute; width: 280px; height: 280px; border-radius: 50%;
+    background: var(--grad); filter: blur(60px); opacity: .45; right: -80px; bottom: -80px;
+  }
+  .gear-visual .icons { display: flex; gap: 14px; position: relative; z-index: 1; }
+  .gear-visual .icons div {
+    width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center; font-size: 1.8rem;
+  }
+  .gear-visual b { font-family: Fraunces, serif; font-size: 2.4rem; position: relative; z-index: 1; line-height: 1.1; }
+  .gear-visual small { opacity: .75; position: relative; z-index: 1; font-size: .95rem; }
+  .gear-body { padding: 44px; display: flex; flex-direction: column; gap: 16px; }
+  .gear-body h3 { font-family: Fraunces, serif; font-size: 1.8rem; line-height: 1.15; }
+  .gear-body p { color: var(--muted); }
+  .gear-body ul { list-style: none; display: grid; gap: 8px; }
+  .gear-body li::before { content: "✓"; color: var(--rose); font-weight: 700; margin-right: 10px; }
+  .ad { font-size: .8rem; color: var(--muted); }
+  .ad b { background: var(--bg); border: 1px solid var(--line); padding: 2px 8px; border-radius: 6px; margin-right: 6px; font-weight: 600; }
+
+  /* Collaboration */
+  .collab { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .collab-note { color: var(--muted); font-size: .9rem; margin-top: 14px; }
+  .offers { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .offer {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .offer span { font-size: 1.6rem; margin-bottom: 6px; }
+  .offer b { font-size: 1.02rem; }
+  .offer small { color: var(--muted); font-size: .88rem; }
+
+  /* Socials */
+  .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .social {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 32px; display: flex; flex-direction: column; gap: 14px;
+    transition: transform .25s, box-shadow .25s; position: relative; overflow: hidden;
+  }
+  .social:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -24px rgba(0,0,0,.25); }
+  .social .ic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; color: #fff; }
+  .social .ic svg { width: 28px; height: 28px; fill: currentColor; }
+  .social h3 { font-size: 1.3rem; }
+  .social p { color: var(--muted); font-size: .95rem; flex: 1; }
+  .social .go { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .social .go::after { content: "→"; transition: transform .2s; }
+  .social:hover .go::after { transform: translateX(4px); }
+  .yt .ic { background: #ff0033; }
+  .ig .ic { background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); }
+  .fb .ic { background: #1877f2; }
+
+  /* Contact */
+  .contact { text-align: center; }
+  .contact .lead { margin: 0 auto 32px; }
+  .mail {
+    font-family: Fraunces, serif; font-size: clamp(1.3rem, 4vw, 2.4rem); font-weight: 600;
+    border-bottom: 3px solid var(--rose); padding-bottom: 4px; word-break: break-word;
+  }
+
+  footer { padding: 40px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer .links { display: flex; gap: 20px; }
+  footer a:hover { color: var(--ink); }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 1000px) {
+    .nav-links { display: none; }
+  }
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .hero p { margin: 0 auto 36px; }
+    .btns { justify-content: center; }
+    .hero-photo { max-width: 340px; margin: 0 auto; width: 100%; }
+    .about-grid, .video-grid, .social-grid, .gear, .collab { grid-template-columns: 1fr; }
+    .collab { gap: 36px; }
+    .collab .btns { justify-content: flex-start; }
+    .about-grid { gap: 36px; }
+    .photo { max-width: 420px; }
+    section { padding: 80px 0; }
+    .dark { border-radius: 28px; margin: 0 8px; }
+    #map { height: 440px; }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+    .gear-visual, .gear-body { padding: 30px; }
+    .gear-visual { min-height: 0; }
+    .gear-body .btns { justify-content: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="logo">S<span>&amp;</span>M</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#om-oss" data-en="About">Om oss</a>
+        <a href="#videoer" data-en="Videos">Videoer</a>
+        <a href="#kart" data-en="Map">Kart</a>
+        <a href="#galleri" data-en="Gallery">Galleri</a>
+        <a href="#utstyr" data-en="Gear">Utstyr</a>
+        <a href="#samarbeid" data-en="Partnerships">Samarbeid</a>
+        <a href="#kontakt" data-en="Contact">Kontakt</a>
+      </div>
+      <div class="lang" role="group" aria-label="Språk / Language">
+        <button type="button" data-lang="no" class="on">NO</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="hero-inner wrap">
+    <div>
+      <span class="eyebrow">YouTube · Instagram · Facebook</span>
+      <h1>Sunantha<br><span class="amp">&amp;</span> Morten</h1>
+      <p data-en="A couple, one motorhome and a shared passion for travel, food and experiences. Join us on the road!">Et par, én bobil og en felles lidenskap for reiser, mat og opplevelser. Bli med oss på veien!</p>
+      <div class="btns">
+        <a class="btn btn-primary" href="https://www.youtube.com/@Sunantha.Morten" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          <span data-en="Watch our channel">Se kanalen vår</span>
+        </a>
+        <a class="btn btn-ghost" href="#om-oss" data-en="Get to know us">Bli kjent med oss</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="bilde.jpg" alt="Sunantha og Morten foran fjorden og breen i Olden">
+      <span class="pin">📍 Olden, <span data-en="Norway">Norge</span></span>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</header>
+
+<section id="om-oss">
+  <div class="wrap about-grid">
+    <div class="photo reveal">
+      <img src="om-oss.jpg" alt="Sunantha og Morten på tur ved et vann i skogen">
+    </div>
+    <div class="reveal">
+      <span class="label" data-en="About us">Om oss</span>
+      <h2 data-en="Hi, we're Sunantha and Morten!">Hei, vi er Sunantha og Morten!</h2>
+      <p class="lead" data-en="We're a couple with a shared passion for travel, food and experiences. With our motorhome as our home on wheels, we explore new places – from the fjords and Trollstigen in Norway and charming fishing villages in Sweden, to Lake Garda and Cinque Terre in Italy.">Vi er et par med en felles lidenskap for reiser, mat og opplevelser. Med bobilen som vårt mobile hjem utforsker vi nye steder – fra fjordene og Trollstigen i Norge og koselige fiskebyer i Sverige, til Gardasjøen og Cinque Terre i Italia.</p>
+      <p class="lead" style="margin-top:14px" data-en="We show it all as it is: the beautiful views, the good meals, the best campsites – and the times things don't quite go to plan. Follow us on YouTube for new videos, and on Instagram and Facebook for what's happening right now.">Vi viser det hele som det er: de vakre utsiktene, de gode måltidene, de beste campingplassene – og de gangene ting ikke går helt etter planen. Følg oss på YouTube for nye videoer, og på Instagram og Facebook for det som skjer akkurat nå.</p>
+      <div class="stats">
+        <div class="stat"><b>5k+</b><span data-en="subscribers">abonnenter</span></div>
+        <div class="stat"><b>1</b><span data-en="motorhome">bobil</span></div>
+        <div class="stat"><b>∞</b><span data-en="adventures">eventyr</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="videoer" class="dark">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="label" data-en="Latest on YouTube">Siste fra YouTube</span>
+        <h2 data-en="Videos">Videoer</h2>
+        <p class="lead" data-en="Grab a cup of coffee and join us on the latest leg of the journey.">Ta en kopp kaffe og bli med på den siste etappen.</p>
+      </div>
+      <a class="btn btn-ghost" href="https://www.youtube.com/@Sunantha.Morten/videos" target="_blank" rel="noopener" data-en="All videos →">Alle videoer →</a>
+    </div>
+    <!-- Den store videoen viser alltid den nyeste opplastingen på kanalen.
+         De to små hentes fra videos.json, som oppdateres automatisk (se oppdater_videoer.py). -->
+    <div class="video-grid reveal">
+      <div class="vid" id="vid-main"></div>
+      <div class="video-side">
+        <div class="vid" id="vid-2"></div>
+        <div class="vid" id="vid-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kart">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="label" data-en="Where we've been">Her har vi vært</span>
+        <h2 data-en="Our trips on the map">Turene våre på kartet</h2>
+        <p class="lead" data-en="Click a pin to see the place – and watch the video from there.">Trykk på en nål for å se stedet – og se videoen derfra.</p>
+      </div>
+    </div>
+    <div class="chips reveal" id="chips"></div>
+    <div class="map-wrap reveal"><div id="map" aria-label="Kart over turene"></div></div>
+  </div>
+</section>
+
+<section id="galleri" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="label" data-en="Gallery">Galleri</span>
+        <h2 data-en="Glimpses from the road">Glimt fra veien</h2>
+        <p class="lead" data-en="Some favourite moments from our trips.">Noen av favorittøyeblikkene fra turene våre.</p>
+      </div>
+    </div>
+    <!-- GALLERI: Legg til flere bilder i listen "gallery" nederst i filen. -->
+    <div class="gallery reveal" id="gallery"></div>
+  </div>
+</section>
+
+<section id="utstyr" class="dark">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="label" data-en="Our gear">Utstyret vårt</span>
+      <h2 data-en="Things we love in the motorhome">Ting vi elsker i bobilen</h2>
+      <p class="lead" data-en="Gear we use ourselves and can recommend.">Utstyr vi bruker selv og kan anbefale.</p>
+    </div>
+    <div class="gear reveal">
+      <div class="gear-visual">
+        <div class="icons"><div>🧲</div><div>🧂</div><div>🧻</div><div>🥂</div></div>
+        <b>Silwy</b>
+        <small data-en="Magnetic storage solutions – from Germany">Magnetiske oppbevaringsløsninger – fra Tyskland</small>
+      </div>
+      <div class="gear-body">
+        <h3 data-en="Everything stays put – even on the road">Alt står på plass – også på veien</h3>
+        <p data-en="Many of you have asked about the magnets we use under all sorts of things in our motorhome. The answer is Silwy – and after using their products for a while, we're genuinely impressed. Thanks to super-strong magnets and nano gel pads, everything stays in place while we drive, so we no longer have to pack things away before every trip.">Mange har spurt oss om magnetene vi bruker under ting og tang i bobilen. Svaret er Silwy – og etter å ha brukt produktene deres en stund er vi svært fornøyde. Takket være supersterke magneter og nano gel-plater står alt stødig mens vi kjører, så vi slipper å pakke bort alt før hver tur.</p>
+        <ul>
+          <li data-en="&lt;b&gt;Our favourites:&lt;/b&gt; magnets with nano gel pads, spice jars and the toilet roll holder"><b>Favorittene våre:</b> magneter med nano gel-plater, krydderkrukker og toalettrullholder</li>
+          <li data-en="Everything from glasses and plates to hooks and storage">Alt fra glass og tallerkener til kroker og oppbevaring</li>
+          <li data-en="Perfect for motorhomes, caravans and boats">Perfekt for bobil, campingvogn og båt</li>
+        </ul>
+        <div class="btns" style="margin-top:6px">
+          <a class="btn btn-primary" href="https://silwy.de/sunantha.morten" target="_blank" rel="noopener sponsored" data-en="Shop Silwy →">Se utvalget hos Silwy →</a>
+        </div>
+        <p class="ad"><b data-en="Ad">Reklame</b><span data-en="This is an affiliate link. If you buy through it, we get a small commission – at no extra cost to you.">Dette er en affiliate-lenke. Kjøper du via den, får vi en liten provisjon – uten at det koster deg noe ekstra.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="samarbeid">
+  <div class="wrap collab">
+    <div class="reveal">
+      <span class="label" data-en="Partnerships">Samarbeid</span>
+      <h2 data-en="Let's work together">La oss samarbeide</h2>
+      <p class="lead" data-en="We work with brands, campsites and destinations that fit life on the road – and always show things honestly, the way we experience them.">Vi samarbeider med merkevarer, campingplasser og reisemål som passer inn i bobillivet – og viser alltid ting ærlig, slik vi opplever dem.</p>
+      <div class="btns" style="margin-top:28px">
+        <a class="btn btn-primary" href="mailto:samarbeid@sunanthaogmorten.no?subject=Samarbeid" data-en="Get in touch →">Ta kontakt →</a>
+      </div>
+      <p class="collab-note"><a href="mailto:samarbeid@sunanthaogmorten.no" style="font-weight:600;color:var(--ink)">samarbeid@sunanthaogmorten.no</a> · <span data-en="Media kit and statistics available on request.">Mediakit og statistikk sendes på forespørsel.</span></p>
+    </div>
+    <div class="offers reveal">
+      <div class="offer"><span>🧪</span><b data-en="Product tests">Produkttest</b><small data-en="Honest reviews in our videos">Ærlig omtale i video</small></div>
+      <div class="offer"><span>🏕️</span><b data-en="Campsites &amp; destinations">Camping og reisemål</b><small data-en="Visits and features">Besøk og presentasjon</small></div>
+      <div class="offer"><span>📱</span><b data-en="Social media">Sosiale medier</b><small data-en="Posts and stories">Innlegg og stories</small></div>
+      <div class="offer"><span>🔗</span><b data-en="Affiliate">Affiliate</b><small data-en="Long-term partnerships">Langsiktige samarbeid</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="folg-oss" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="label" data-en="Follow us">Følg oss</span>
+      <h2 data-en="We're where you are">Vi er der du er</h2>
+      <p class="lead" data-en="Pick your favourite – or follow us everywhere.">Velg din favoritt – eller følg oss overalt.</p>
+    </div>
+    <div class="social-grid">
+      <a class="social yt reveal" href="https://www.youtube.com/@Sunantha.Morten" target="_blank" rel="noopener">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></div>
+        <h3>YouTube</h3>
+        <p data-en="Our motorhome trips in full length – subscribe so you don't miss the next one.">Bobilturene våre i full lengde – abonner så du ikke går glipp av neste tur.</p>
+        <span class="go" data-en="Subscribe">Abonner</span>
+      </a>
+      <a class="social ig reveal" href="https://www.instagram.com/sunantha.morten/" target="_blank" rel="noopener">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg></div>
+        <h3>Instagram</h3>
+        <p data-en="Photos, stories and little glimpses of everyday life.">Bilder, stories og små glimt fra hverdagen.</p>
+        <span class="go" data-en="Follow us">Følg oss</span>
+      </a>
+      <a class="social fb reveal" href="https://www.facebook.com/people/Sunantha-Morten/61573150863234/" target="_blank" rel="noopener">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></div>
+        <h3>Facebook</h3>
+        <p data-en="Join the community, comment and share with friends.">Bli med i fellesskapet, kommenter og del med venner.</p>
+        <span class="go" data-en="Like the page">Lik siden</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" class="contact">
+  <div class="wrap reveal">
+    <span class="label" data-en="Contact">Kontakt</span>
+    <h2 data-en="Say hi!">Si hei!</h2>
+    <p class="lead" data-en="Collaboration, questions or just want to say hi? Send us a message.">Samarbeid, spørsmål eller bare lyst til å si hei? Send oss en melding.</p>
+    <a class="mail" href="mailto:sunanthaogmorten@gmail.com">sunanthaogmorten@gmail.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> Sunantha &amp; Morten</span>
+    <div class="links">
+      <a href="https://www.youtube.com/@Sunantha.Morten" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.instagram.com/sunantha.morten/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/people/Sunantha-Morten/61573150863234/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lb-close" aria-label="Lukk">✕</button>
+  <div><img id="lb-img" alt=""><p id="lb-cap"></p></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  const CHANNEL_ID = 'UC_PqG28Sm1SOlMm27SRq1rQ';
+  const thumb = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+  const watch = id => `https://www.youtube.com/watch?v=${id}`;
+
+  // ====== STEDER PÅ KARTET ======
+  // Legg til nye steder her: navn, land (no/se/it), koordinater, video-ID og en kort tekst på norsk og engelsk.
+  const places = [
+    { name: 'Hønefoss',     country: 'no', lat: 60.168, lng: 10.257, video: 'UmoCjI8VM_w', no: 'Første fricamp på bobilsommeren', en: 'First wild camp of the motorhome summer' },
+    { name: 'Olden',        country: 'no', lat: 61.837, lng: 6.807,  video: 'CA3WJtOiyHQ', no: 'Olden Camping og Oldedalen',      en: 'Olden Camping and the Olden valley' },
+    { name: 'Geiranger',    country: 'no', lat: 62.101, lng: 7.206,  video: 'qkBhcpDoCaw', no: 'Norges vakreste fjord',           en: "Norway's most beautiful fjord" },
+    { name: 'Trollstigen',  country: 'no', lat: 62.457, lng: 7.668,  video: '-sBQu-4PfDU', no: 'Ned den berømte Trollstigen',     en: 'Down the famous Trollstigen road' },
+    { name: 'Åndalsnes',    country: 'no', lat: 62.567, lng: 7.687,  video: 'nSKZwRt9apY', no: 'Eventyret fortsetter',            en: 'The adventure continues' },
+    { name: 'Lillestrøm',   country: 'no', lat: 59.962, lng: 11.050, video: '3pXKpVVwMow', no: 'Caravan Xpo 2026',                en: 'Caravan Xpo 2026' },
+    { name: 'Lysekil',      country: 'se', lat: 58.274, lng: 11.435, video: 'lHydShayv9g', no: 'Gullmarsbadens Camping',          en: 'Gullmarsbaden Camping' },
+    { name: 'Stora Höga',   country: 'se', lat: 58.018, lng: 11.840, video: 'uYA4yXJop7A', no: 'Kveld ved havet',                 en: 'An evening by the sea' },
+    { name: 'Bua',          country: 'se', lat: 57.237, lng: 12.115, video: 'rDF9EoKbGB8', no: 'Sveriges hyggeligste fiskeby?',   en: "Sweden's coziest fishing village?" },
+    { name: 'Sirmione',     country: 'it', lat: 45.497, lng: 10.607, video: 'ErSMIe_1jww', no: 'Stedet som føltes som hjemme',    en: 'The place that felt like home' },
+    { name: 'Gardasjøen',   en_name: 'Lake Garda', country: 'it', lat: 45.640, lng: 10.680, video: 'VOPShNQGQPc', no: 'Båttur rundt sjøen', en: 'Boat trip around the lake' },
+    { name: 'Iseosjøen',    en_name: 'Lake Iseo',  country: 'it', lat: 45.720, lng: 10.080, video: 'qS3o9s6_9o8', no: 'Vakre Iseosjøen',    en: 'Beautiful Lake Iseo' },
+    { name: 'Cinque Terre', country: 'it', lat: 44.128, lng: 9.710,  video: 'FgChMqxa48w', no: 'En stor feil i Cinque Terre',     en: 'A big mistake in Cinque Terre' },
+  ];
+
+  // ====== GALLERI ======
+  // Egne bilder: legg bildefilen i samme mappe og skriv filnavnet (src: 'mittbilde.jpg').
+  // cls: 'big' = stor rute, 'tall' = høy rute, ellers vanlig.
+  const gallery = [
+    { src: 'bilde.jpg',          cls: 'tall', no: 'Olden, Norge',  en: 'Olden, Norway' },
+    { src: thumb('qkBhcpDoCaw'), cls: 'big',  no: 'Geiranger',     en: 'Geiranger',     video: 'qkBhcpDoCaw' },
+    { src: thumb('ErSMIe_1jww'),              no: 'Sirmione',      en: 'Sirmione',      video: 'ErSMIe_1jww' },
+    { src: thumb('FgChMqxa48w'),              no: 'Cinque Terre',  en: 'Cinque Terre',  video: 'FgChMqxa48w' },
+    { src: 'om-oss.jpg',         cls: 'big',  no: 'Ut på tur',     en: 'Out exploring' },
+    { src: thumb('-sBQu-4PfDU'),              no: 'Trollstigen',   en: 'Trollstigen',   video: '-sBQu-4PfDU' },
+    { src: thumb('rDF9EoKbGB8'),              no: 'Bua, Sverige',  en: 'Bua, Sweden',   video: 'rDF9EoKbGB8' },
+    { src: thumb('qS3o9s6_9o8'),              no: 'Iseosjøen',     en: 'Lake Iseo',     video: 'qS3o9s6_9o8' },
+    { src: thumb('CA3WJtOiyHQ'),              no: 'Oldedalen',     en: 'Olden valley',  video: 'CA3WJtOiyHQ' },
+  ];
+
+  // ====== SPRÅK ======
+  const t = {
+    no: { watch: 'Se videoen →', all: 'Alle', no: 'Norge', se: 'Sverige', it: 'Italia', close: 'Lukk' },
+    en: { watch: 'Watch the video →', all: 'All', no: 'Norway', se: 'Sweden', it: 'Italy', close: 'Close' },
+  };
+  let lang = 'no';
+  try {
+    lang = localStorage.getItem('lang') || (/^(nb|nn|no)\b/i.test(navigator.language) ? 'no' : 'en');
+  } catch (e) {}
+
+  document.querySelectorAll('[data-en]').forEach(el => { el.dataset.no = el.innerHTML; });
+
+  function setLang(l) {
+    lang = l;
+    document.documentElement.lang = l;
+    document.querySelectorAll('[data-en]').forEach(el => { el.innerHTML = el.dataset[l]; });
+    document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+    document.getElementById('lb-close').setAttribute('aria-label', t[l].close);
+    try { localStorage.setItem('lang', l); } catch (e) {}
+    renderChips();
+    renderMarkers(false);
+    renderGallery();
+  }
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+  // ====== VIDEOER ======
+  function embed(el, src, title) {
+    el.innerHTML = `<iframe src="${src}" title="${title || 'YouTube'}" loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  // Den store spilleren viser kanalens opplastinger – nyeste video først, alltid oppdatert.
+  embed(document.getElementById('vid-main'),
+    `https://www.youtube-nocookie.com/embed/videoseries?list=UU${CHANNEL_ID.slice(2)}`, 'Siste video');
+  // De to små hentes fra videos.json (oppdateres automatisk). Faller tilbake på faste videoer.
+  const fallback = [{ id: 'uYA4yXJop7A' }, { id: 'lHydShayv9g' }];
+  fetch('videos.json', { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(list => list.length >= 3 ? list.slice(1, 3) : fallback)
+    .catch(() => fallback)
+    .then(([a, b]) => {
+      embed(document.getElementById('vid-2'), `https://www.youtube-nocookie.com/embed/${a.id}`, a.title);
+      embed(document.getElementById('vid-3'), `https://www.youtube-nocookie.com/embed/${b.id}`, b.title);
+    });
+
+  // ====== KART ======
+  const map = L.map('map', { scrollWheelZoom: false });
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 18,
+  }).addTo(map);
+  const icon = L.divIcon({ className: '', html: '<div class="marker"></div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -12] });
+  const layer = L.layerGroup().addTo(map);
+  let filter = 'all';
+
+  function renderMarkers(fit = true) {
+    layer.clearLayers();
+    const shown = places.filter(p => filter === 'all' || p.country === filter);
+    shown.forEach(p => {
+      const name = lang === 'en' && p.en_name ? p.en_name : p.name;
+      L.marker([p.lat, p.lng], { icon, title: name }).addTo(layer).bindPopup(
+        `<div class="pop"><img src="${thumb(p.video)}" alt=""><div><b>${name}</b><small>${p[lang]}</small>
+         <a href="${watch(p.video)}" target="_blank" rel="noopener">${t[lang].watch}</a></div></div>`);
+    });
+    if (fit && shown.length) map.fitBounds(L.latLngBounds(shown.map(p => [p.lat, p.lng])), { padding: [50, 50], maxZoom: 9 });
+  }
+
+  function renderChips() {
+    const box = document.getElementById('chips');
+    box.innerHTML = '';
+    ['all', 'no', 'se', 'it'].forEach(c => {
+      const flag = { all: '🌍', no: '🇳🇴', se: '🇸🇪', it: '🇮🇹' }[c];
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (filter === c ? ' on' : '');
+      b.textContent = `${flag} ${t[lang][c]}`;
+      b.onclick = () => { filter = c; renderChips(); renderMarkers(); };
+      box.appendChild(b);
+    });
+  }
+
+  // ====== GALLERI ======
+  const lb = document.getElementById('lightbox');
+  function renderGallery() {
+    const box = document.getElementById('gallery');
+    box.innerHTML = '';
+    gallery.forEach(g => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'g ' + (g.cls || '');
+      b.innerHTML = `<img src="${g.src}" alt="${g[lang]}" loading="lazy"><span>${g[lang]}</span>`;
+      b.onclick = () => {
+        document.getElementById('lb-img').src = g.src;
+        document.getElementById('lb-cap').innerHTML = g[lang] +
+          (g.video ? `<a href="${watch(g.video)}" target="_blank" rel="noopener">${t[lang].watch}</a>` : '');
+        lb.classList.add('open');
+      };
+      box.appendChild(b);
+    });
+  }
+  const closeLb = () => lb.classList.remove('open');
+  document.getElementById('lb-close').onclick = closeLb;
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+  setLang(lang);
+  renderMarkers();
+
+  // ====== DIVERSE ======
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+        if (e.target.querySelector('#map')) setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 300);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
