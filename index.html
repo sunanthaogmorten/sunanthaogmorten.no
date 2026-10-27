@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Kart (skjult foreløpig): fjern kommentaren rundt Leaflet her og nederst, og sett VIS_KART_OG_GALLERI = true -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"> -->
 <style>
   :root {
     --bg: #fff8f1;
@@ -165,6 +163,15 @@
   .pop b { display: block; font-size: 1rem; }
   .pop small { color: var(--muted); display: block; margin: 2px 0 8px; line-height: 1.4; }
   .pop a { font-weight: 600; color: var(--rose); }
+  .pop ul { list-style: none; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid var(--line); display: grid; gap: 4px; font-size: .8rem; }
+  .pop ul a { font-weight: 500; color: var(--ink); }
+  .pop ul a:hover { color: var(--rose); }
+  .pop .more { color: var(--muted); }
+  .cluster {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--grad); color: #fff;
+    display: grid; place-items: center; font-weight: 700; font-size: .9rem;
+    border: 3px solid #fff; box-shadow: 0 4px 14px rgba(0,0,0,.35);
+  }
 
   /* Gallery */
   .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; grid-auto-flow: dense; gap: 14px; }
@@ -564,34 +571,20 @@
   <div><img id="lb-img" alt=""><p id="lb-cap"></p></div>
 </div>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script> -->
 <script>
   const CHANNEL_ID = 'UC_PqG28Sm1SOlMm27SRq1rQ';
-  // Kart og galleri er skjult mens vi jobber videre med dem. Sett til true for å vise dem igjen.
-  const VIS_KART_OG_GALLERI = false;
-  if (VIS_KART_OG_GALLERI) {
-    document.querySelectorAll('#kart, #galleri, a[href="#kart"], a[href="#galleri"]').forEach(el => { el.hidden = false; });
-  }
+  // Kart og galleri kan skjules mens vi jobber med dem. Sett til true for å vise dem.
+  // (Lokal forhåndsvisning av kartet: legg til ?kart=1 i adressen.)
+  const VIS_KART = false || new URLSearchParams(location.search).has('kart');
+  const VIS_GALLERI = false;
+  if (VIS_KART) document.querySelectorAll('#kart, a[href="#kart"]').forEach(el => { el.hidden = false; });
+  if (VIS_GALLERI) document.querySelectorAll('#galleri, a[href="#galleri"]').forEach(el => { el.hidden = false; });
   const thumb = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
   const watch = id => `https://www.youtube.com/watch?v=${id}`;
 
   // ====== STEDER PÅ KARTET ======
-  // Legg til nye steder her: navn, land (no/se/it), koordinater, video-ID og en kort tekst på norsk og engelsk.
-  const places = [
-    { name: 'Hønefoss',     country: 'no', lat: 60.168, lng: 10.257, video: 'UmoCjI8VM_w', no: 'Første fricamp på bobilsommeren', en: 'First wild camp of the motorhome summer' },
-    { name: 'Olden',        country: 'no', lat: 61.837, lng: 6.807,  video: 'CA3WJtOiyHQ', no: 'Olden Camping og Oldedalen',      en: 'Olden Camping and the Olden valley' },
-    { name: 'Geiranger',    country: 'no', lat: 62.101, lng: 7.206,  video: 'qkBhcpDoCaw', no: 'Norges vakreste fjord',           en: "Norway's most beautiful fjord" },
-    { name: 'Trollstigen',  country: 'no', lat: 62.457, lng: 7.668,  video: '-sBQu-4PfDU', no: 'Ned den berømte Trollstigen',     en: 'Down the famous Trollstigen road' },
-    { name: 'Åndalsnes',    country: 'no', lat: 62.567, lng: 7.687,  video: 'nSKZwRt9apY', no: 'Eventyret fortsetter',            en: 'The adventure continues' },
-    { name: 'Lillestrøm',   country: 'no', lat: 59.962, lng: 11.050, video: '3pXKpVVwMow', no: 'Caravan Xpo 2026',                en: 'Caravan Xpo 2026' },
-    { name: 'Lysekil',      country: 'se', lat: 58.274, lng: 11.435, video: 'lHydShayv9g', no: 'Gullmarsbadens Camping',          en: 'Gullmarsbaden Camping' },
-    { name: 'Stora Höga',   country: 'se', lat: 58.018, lng: 11.840, video: 'uYA4yXJop7A', no: 'Kveld ved havet',                 en: 'An evening by the sea' },
-    { name: 'Bua',          country: 'se', lat: 57.237, lng: 12.115, video: 'rDF9EoKbGB8', no: 'Sveriges hyggeligste fiskeby?',   en: "Sweden's coziest fishing village?" },
-    { name: 'Sirmione',     country: 'it', lat: 45.497, lng: 10.607, video: 'ErSMIe_1jww', no: 'Stedet som føltes som hjemme',    en: 'The place that felt like home' },
-    { name: 'Gardasjøen',   en_name: 'Lake Garda', country: 'it', lat: 45.640, lng: 10.680, video: 'VOPShNQGQPc', no: 'Båttur rundt sjøen', en: 'Boat trip around the lake' },
-    { name: 'Iseosjøen',    en_name: 'Lake Iseo',  country: 'it', lat: 45.720, lng: 10.080, video: 'qS3o9s6_9o8', no: 'Vakre Iseosjøen',    en: 'Beautiful Lake Iseo' },
-    { name: 'Cinque Terre', country: 'it', lat: 44.128, lng: 9.710,  video: 'FgChMqxa48w', no: 'En stor feil i Cinque Terre',     en: 'A big mistake in Cinque Terre' },
-  ];
+  // Stedene ligger i steder.json (navn, land, type, koordinater og videoer).
+  let places = [];
 
   // ====== GALLERI ======
   // Egne bilder: legg bildefilen i samme mappe og skriv filnavnet (src: 'mittbilde.jpg').
@@ -610,8 +603,12 @@
 
   // ====== SPRÅK ======
   const t = {
-    no: { watch: 'Se videoen →', all: 'Alle', no: 'Norge', se: 'Sverige', it: 'Italia', close: 'Lukk' },
-    en: { watch: 'Watch the video →', all: 'All', no: 'Norway', se: 'Sweden', it: 'Italy', close: 'Close' },
+    no: { watch: 'Se videoen →', latest: 'Se nyeste video →', all: 'Alle', no: 'Norge', se: 'Sverige', dk: 'Danmark', de: 'Tyskland', at: 'Østerrike', fr: 'Frankrike', it: 'Italia', close: 'Lukk',
+          videos: n => `${n} videoer herfra`, more: n => `+ ${n} til`,
+          type: { camping: 'Camping', fricamping: 'Fricamping', bobilparkering: 'Bobilparkering', by: 'By', sted: 'Sted', severdighet: 'Severdighet', messe: 'Messe / treff', 'vingård': 'Gård / vingård' } },
+    en: { watch: 'Watch the video →', latest: 'Watch the latest video →', all: 'All', no: 'Norway', se: 'Sweden', dk: 'Denmark', de: 'Germany', at: 'Austria', fr: 'France', it: 'Italy', close: 'Close',
+          videos: n => `${n} videos from here`, more: n => `+ ${n} more`,
+          type: { camping: 'Campsite', fricamping: 'Wild camping', bobilparkering: 'Motorhome parking', by: 'City', sted: 'Place', severdighet: 'Sight', messe: 'Fair / meet-up', 'vingård': 'Farm / winery' } },
   };
   let lang = 'no';
   try {
@@ -653,50 +650,84 @@
     });
 
   // ====== KART ======
-  const kartPå = VIS_KART_OG_GALLERI && typeof L !== 'undefined';
-  const map = kartPå ? L.map('map', { scrollWheelZoom: false }) : null;
-  if (kartPå) {
+  const FLAGS = { all: '🌍', no: '🇳🇴', se: '🇸🇪', dk: '🇩🇰', de: '🇩🇪', at: '🇦🇹', fr: '🇫🇷', it: '🇮🇹' };
+  let map = null, layer = null, filter = 'all';
+  // Land som ikke står i listen over, får navn fra nettleseren og et 📍-merke.
+  const flag = c => FLAGS[c] || '📍';
+  const landsnavn = c => t[lang][c] || new Intl.DisplayNames([lang === 'en' ? 'en' : 'nb'], { type: 'region' }).of(c.toUpperCase());
+
+  function loadAsset(tag, attrs) {
+    return new Promise((resolve, reject) => {
+      const el = Object.assign(document.createElement(tag), attrs, { onload: resolve, onerror: reject });
+      document.head.appendChild(el);
+    });
+  }
+
+  async function initMap() {
+    const cdn = 'https://cdnjs.cloudflare.com/ajax/libs/';
+    loadAsset('link', { rel: 'stylesheet', href: cdn + 'leaflet/1.9.4/leaflet.min.css' });
+    loadAsset('link', { rel: 'stylesheet', href: cdn + 'leaflet.markercluster/1.5.3/MarkerCluster.min.css' });
+    await loadAsset('script', { src: cdn + 'leaflet/1.9.4/leaflet.min.js' });
+    await loadAsset('script', { src: cdn + 'leaflet.markercluster/1.5.3/leaflet.markercluster.min.js' });
+    places = await fetch('steder.json').then(r => r.json());
+
+    map = L.map('map', { scrollWheelZoom: false });
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       maxZoom: 18,
     }).addTo(map);
+    layer = L.markerClusterGroup({
+      showCoverageOnHover: false, maxClusterRadius: 45,
+      iconCreateFunction: c => L.divIcon({ className: '', html: `<div class="cluster">${c.getChildCount()}</div>`, iconSize: [38, 38] }),
+    }).addTo(map);
+    renderChips();
+    renderMarkers();
   }
-  const icon = kartPå ? L.divIcon({ className: '', html: '<div class="marker"></div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -12] }) : null;
-  const layer = kartPå ? L.layerGroup().addTo(map) : null;
-  let filter = 'all';
+
+  function popupHtml(p) {
+    const [latest, ...rest] = p.videos;
+    const others = rest.slice(0, 3).map(v => `<li><a href="${watch(v.id)}" target="_blank" rel="noopener">${v.title}</a></li>`).join('');
+    const more = rest.length > 3 ? `<li class="more">${t[lang].more(rest.length - 3)}</li>` : '';
+    return `<div class="pop"><img src="${thumb(latest.id)}" alt="" loading="lazy"><div>
+      <b>${p.name}</b><small>${flag(p.country)} ${t[lang].type[p.type] || ''}${p.videos.length > 1 ? ' · ' + t[lang].videos(p.videos.length) : ''}</small>
+      <a href="${watch(latest.id)}" target="_blank" rel="noopener">${p.videos.length > 1 ? t[lang].latest : t[lang].watch}</a>
+      ${others || more ? `<ul>${others}${more}</ul>` : ''}</div></div>`;
+  }
 
   function renderMarkers(fit = true) {
-    if (!kartPå) return;
+    if (!map) return;
     layer.clearLayers();
     const shown = places.filter(p => filter === 'all' || p.country === filter);
     shown.forEach(p => {
-      const name = lang === 'en' && p.en_name ? p.en_name : p.name;
-      L.marker([p.lat, p.lng], { icon, title: name }).addTo(layer).bindPopup(
-        `<div class="pop"><img src="${thumb(p.video)}" alt=""><div><b>${name}</b><small>${p[lang]}</small>
-         <a href="${watch(p.video)}" target="_blank" rel="noopener">${t[lang].watch}</a></div></div>`);
+      layer.addLayer(L.marker([p.lat, p.lng], {
+        title: p.name,
+        icon: L.divIcon({ className: '', html: '<div class="marker"></div>', iconSize: [22, 22], iconAnchor: [11, 11], popupAnchor: [0, -12] }),
+      }).bindPopup(() => popupHtml(p)));
     });
-    if (fit && shown.length) map.fitBounds(L.latLngBounds(shown.map(p => [p.lat, p.lng])), { padding: [50, 50], maxZoom: 9 });
+    if (fit && shown.length) map.fitBounds(L.latLngBounds(shown.map(p => [p.lat, p.lng])), { padding: [40, 40], maxZoom: 9 });
   }
 
   function renderChips() {
-    if (!kartPå) return;
+    if (!map) return;
     const box = document.getElementById('chips');
     box.innerHTML = '';
-    ['all', 'no', 'se', 'it'].forEach(c => {
-      const flag = { all: '🌍', no: '🇳🇴', se: '🇸🇪', it: '🇮🇹' }[c];
+    ['all', ...new Set(places.map(p => p.country))].forEach(c => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'chip' + (filter === c ? ' on' : '');
-      b.textContent = `${flag} ${t[lang][c]}`;
+      const n = c === 'all' ? places.length : places.filter(p => p.country === c).length;
+      b.textContent = `${flag(c)} ${c === 'all' ? t[lang].all : landsnavn(c)} (${n})`;
       b.onclick = () => { filter = c; renderChips(); renderMarkers(); };
       box.appendChild(b);
     });
   }
 
+  if (VIS_KART) initMap().catch(e => console.error('Kartet kunne ikke lastes', e));
+
   // ====== GALLERI ======
   const lb = document.getElementById('lightbox');
   function renderGallery() {
-    if (!VIS_KART_OG_GALLERI) return;
+    if (!VIS_GALLERI) return;
     const box = document.getElementById('gallery');
     box.innerHTML = '';
     gallery.forEach(g => {
@@ -719,7 +750,6 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
 
   setLang(lang);
-  renderMarkers();
 
   // ====== OPPSKRIFTSHEFTE (Payhip) ======
   // Laster Payhip sitt kjøpsvindu, som åpnes når man trykker «Kjøp nå».
@@ -739,7 +769,7 @@
       if (e.isIntersecting) {
         e.target.classList.add('in');
         io.unobserve(e.target);
-        if (kartPå && e.target.querySelector('#map')) setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 300);
+        if (map && e.target.querySelector('#map')) setTimeout(() => { map.invalidateSize(); renderMarkers(); }, 300);
       }
     });
   }, { threshold: 0.15 });
