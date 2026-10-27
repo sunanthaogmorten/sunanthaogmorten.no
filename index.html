@@ -575,7 +575,7 @@
   const CHANNEL_ID = 'UC_PqG28Sm1SOlMm27SRq1rQ';
   // Kart og galleri kan skjules mens vi jobber med dem. Sett til true for å vise dem.
   // (Lokal forhåndsvisning av kartet: legg til ?kart=1 i adressen.)
-  const VIS_KART = false || new URLSearchParams(location.search).has('kart');
+  const VIS_KART = true;
   const VIS_GALLERI = false;
   if (VIS_KART) document.querySelectorAll('#kart, a[href="#kart"]').forEach(el => { el.hidden = false; });
   if (VIS_GALLERI) document.querySelectorAll('#galleri, a[href="#galleri"]').forEach(el => { el.hidden = false; });
