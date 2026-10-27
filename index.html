@@ -239,6 +239,49 @@
     border: 1px solid var(--line); background: var(--card); padding: 4px 9px; border-radius: 6px;
   }
 
+  /* To hefter + pakke */
+  .books-head { margin-bottom: 40px; }
+  .books { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .book {
+    display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 26px; align-items: start;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  }
+  .book-art img {
+    width: 100%; display: block; border-radius: 3px 8px 8px 3px; transform: rotate(-3deg);
+    box-shadow: 0 30px 50px -25px rgba(42,27,61,.55), 0 8px 18px -8px rgba(0,0,0,.25);
+  }
+  .book-body { display: flex; flex-direction: column; min-height: 100%; }
+  .book-tag { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); }
+  .book h3 { font-family: Fraunces, serif; font-size: 1.45rem; line-height: 1.15; margin: 6px 0 10px; }
+  .book p { color: var(--muted); font-size: .95rem; }
+  .book .shop-list { margin: 14px 0 20px; gap: 5px; font-size: .92rem; }
+  .book-buy { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .price { font-family: Fraunces, serif; font-weight: 800; font-size: 1.7rem; }
+  .bundle {
+    margin-top: 24px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 30px; align-items: center;
+    background: var(--deep); color: #fff; border-radius: var(--radius); padding: 28px 34px; overflow: hidden; position: relative;
+  }
+  .bundle::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 0% 50%, rgba(255,138,61,.35), transparent 55%); pointer-events: none; }
+  .bundle > * { position: relative; }
+  .bundle-art { display: flex; width: 120px; height: 100px; }
+  .bundle-art img { width: 68px; border-radius: 2px 6px 6px 2px; box-shadow: 0 14px 24px -10px rgba(0,0,0,.6); }
+  .bundle-art img:first-child { transform: rotate(-8deg); }
+  .bundle-art img:last-child { transform: rotate(6deg) translate(-18px, 8px); }
+  .bundle-save { display: inline-block; background: var(--grad); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; }
+  .bundle h3 { font-family: Fraunces, serif; font-size: 1.6rem; margin: 8px 0 4px; }
+  .bundle p { color: rgba(255,255,255,.75); }
+  .bundle p s { opacity: .7; }
+  .bundle p b { color: #fff; }
+  .bundle-btn { background: #fff; color: var(--ink); white-space: nowrap; }
+  .books-foot { margin-top: 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .books-foot .collab-note { margin-top: 0; }
+  @media (max-width: 980px) { .books { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .book { grid-template-columns: 96px minmax(0, 1fr); gap: 18px; padding: 22px 18px; }
+    .bundle { grid-template-columns: 1fr; text-align: center; justify-items: center; gap: 16px; padding: 28px 20px; }
+    .bundle-art { width: 110px; }
+  }
+
   /* Collaboration */
   .collab { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
   .collab-note { color: var(--muted); font-size: .9rem; margin-top: 14px; overflow-wrap: anywhere; }
@@ -437,6 +480,75 @@
   </div>
 </section>
 
+<!-- To oppskriftshefter + pakketilbud. Skjult til VIS_KAKEHEFTE = true (forhåndsvis med ?kakehefte).
+     PAYHIP: kakeheftet = W7OaC, pakken med begge heftene = q9K0b. -->
+<section id="oppskrifter-ny" style="padding-top:0" hidden>
+  <div class="wrap">
+    <div class="reveal books-head">
+      <span class="label" data-en="Our recipe books (in Norwegian)">Oppskriftsheftene våre</span>
+      <h2 data-en="From our motorhome kitchen to yours">Fra bobilkjøkkenet til ditt kjøkken</h2>
+      <p class="lead" data-en="After many requests from you, we've gathered our favourites in two booklets – tried and tested at home and on the road.">Etter mange forespørsler fra dere har vi samlet favorittene våre i to hefter – godt prøvd ut både hjemme og på tur.</p>
+    </div>
+
+    <div class="books">
+      <article class="book reveal">
+        <div class="book-art"><img src="hefte-forside.jpg" alt="Forsiden av Sunantha's Thailandsk kjøkken" loading="lazy"></div>
+        <div class="book-body">
+          <span class="book-tag" data-en="Thai food">Thaimat</span>
+          <h3>Sunantha's Thailandsk kjøkken</h3>
+          <p data-en="Authentic Thai food inspired by Sunantha's mother and older sister, who both worked as chefs in Thailand.">Autentisk thaimat med inspirasjon fra Sunanthas mor og storesøster, som begge jobbet som kokker i Thailand.</p>
+          <ul class="shop-list">
+            <li data-en="&lt;b&gt;15 recipes&lt;/b&gt; – curries, wok, noodles and dumplings"><b>15 oppskrifter</b> – curry, wok, nudler og dumplings</li>
+            <li data-en="Step-by-step guides with photos">Steg-for-steg-guider med bilder</li>
+            <li data-en="22 pages as PDF">22 sider som PDF</li>
+          </ul>
+          <div class="book-buy">
+            <span class="price">150 kr</span>
+            <a class="btn btn-primary payhip-buy-button" href="https://payhip.com/b/F54Be" data-theme="none" data-product="F54Be" data-en="Buy">Kjøp</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="book reveal">
+        <div class="book-art"><img src="kakehefte-forside.jpg" alt="Forsiden av Søtt og godt av Sunantha" loading="lazy"></div>
+        <div class="book-body">
+          <span class="book-tag" data-en="Cakes &amp; desserts">Kaker og desserter</span>
+          <h3>Søtt og godt av Sunantha</h3>
+          <p data-en="Our favourite cakes and desserts – from the world's best carrot cake to chocolate mousse with Kvikk Lunsj.">Favorittkakene og dessertene våre – fra verdens beste gulrotkake til sjokolademousse med Kvikk Lunsj.</p>
+          <ul class="shop-list">
+            <li data-en="&lt;b&gt;10 recipes&lt;/b&gt; – cakes, brownies, waffles and desserts"><b>10 oppskrifter</b> – kaker, brownies, vafler og desserter</li>
+            <li data-en="Airfryer tips for all the cakes">Airfryer-tips til alle kakene</li>
+            <li data-en="14 pages as PDF">14 sider som PDF</li>
+          </ul>
+          <div class="book-buy">
+            <span class="price">99 kr</span>
+            <a class="btn btn-primary payhip-buy-button" href="https://payhip.com/b/W7OaC" data-theme="none" data-product="W7OaC" data-en="Buy">Kjøp</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="bundle reveal">
+      <div class="bundle-art" aria-hidden="true">
+        <img src="hefte-forside.jpg" alt="" loading="lazy"><img src="kakehefte-forside.jpg" alt="" loading="lazy">
+      </div>
+      <div class="bundle-text">
+        <span class="bundle-save" data-en="Save 50 NOK">Spar 50 kr</span>
+        <h3 data-en="Get both booklets">Kjøp begge heftene</h3>
+        <p data-en="25 recipes – Thai food, cakes and desserts. &lt;s&gt;249 NOK&lt;/s&gt; &lt;b&gt;199 NOK&lt;/b&gt;">25 oppskrifter – thaimat, kaker og desserter. <s>249 kr</s> <b>199 kr</b></p>
+      </div>
+      <a class="btn bundle-btn payhip-buy-button" href="https://payhip.com/b/q9K0b" data-theme="none" data-product="q9K0b" data-en="Buy both – 199 NOK">Kjøp begge – 199 kr</a>
+    </div>
+
+    <div class="books-foot">
+      <div class="pay-methods" aria-label="Betalingsmåter">
+        <span data-en="Card">Kort</span><span>Apple Pay</span><span>Google Pay</span>
+      </div>
+      <p class="collab-note" data-en="Instant download as PDF. Secure checkout via Payhip – works from all countries.">Last ned med en gang som PDF. Trygg betaling via Payhip – fungerer fra alle land.</p>
+    </div>
+  </div>
+</section>
+
 <section id="videoer" class="dark">
   <div class="wrap">
     <div class="section-head reveal">
@@ -621,6 +733,14 @@
   const VIS_GALLERI = false;
   if (VIS_KART) document.querySelectorAll('#kart, a[href="#kart"]').forEach(el => { el.hidden = false; });
   if (VIS_GALLERI) document.querySelectorAll('#galleri, a[href="#galleri"]').forEach(el => { el.hidden = false; });
+  // Kakeheftet: bytt ut den gamle salgsdelen med den nye (to hefter + pakketilbud)
+  const VIS_KAKEHEFTE = true;
+  if (VIS_KAKEHEFTE) {
+    document.getElementById('oppskrifter').remove();
+    const ny = document.getElementById('oppskrifter-ny');
+    ny.id = 'oppskrifter';
+    ny.hidden = false;
+  }
   const thumb = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
   const watch = id => `https://www.youtube.com/watch?v=${id}`;
 
