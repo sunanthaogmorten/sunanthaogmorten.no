@@ -650,10 +650,11 @@
     });
 
   // ====== KART ======
-  const FLAGS = { all: '🌍', no: '🇳🇴', se: '🇸🇪', dk: '🇩🇰', de: '🇩🇪', at: '🇦🇹', fr: '🇫🇷', it: '🇮🇹' };
+  const FLAGS = { all: '🌍', no: '🇳🇴', se: '🇸🇪', dk: '🇩🇰', de: '🇩🇪', at: '🇦🇹', fr: '🇫🇷', it: '🇮🇹', nl: '🇳🇱', be: '🇧🇪', ch: '🇨🇭', sm: '🇸🇲' };
   let map = null, layer = null, filter = 'all';
   // Land som ikke står i listen over, får navn fra nettleseren og et 📍-merke.
-  const flag = c => FLAGS[c] || '📍';
+  // Land som ikke står i FLAGS (nye land fra 📍-linjen) får flagget laget av landskoden
+  const flag = c => FLAGS[c] || (/^[a-z]{2}$/.test(c) ? String.fromCodePoint(...[...c.toUpperCase()].map(b => 0x1F1A5 + b.charCodeAt(0))) : '📍');
   const landsnavn = c => t[lang][c] || new Intl.DisplayNames([lang === 'en' ? 'en' : 'nb'], { type: 'region' }).of(c.toUpperCase());
 
   function loadAsset(tag, attrs) {

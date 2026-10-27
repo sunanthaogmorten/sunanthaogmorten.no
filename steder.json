@@ -823,9 +823,24 @@
     "date": "2024-02-04"
    },
    {
+    "id": "EBqe2aajbMs",
+    "title": "HVA GJØR VI NÅ???",
+    "date": "2023-12-27"
+   },
+   {
+    "id": "K1L_i_d4OuM",
+    "title": "Julepynt i bobilen! Julemarked, julemat, sprø svor og ASMR? Hvor mange ganger kan man si gløgg?",
+    "date": "2023-12-17"
+   },
+   {
     "id": "vZ2v3BY6-r4",
     "title": "Gratis i Strømstad og bobilplass i Lysekil! Blåser popcorn inne og KRAFTIG vind ute!",
     "date": "2023-11-05"
+   },
+   {
+    "id": "N-Qo0HUJiU0",
+    "title": "VI DRAR FRA NORGE! HVA FÅR MAN FOR 20KR? #bobil #camping #husbil",
+    "date": "2023-10-02"
    }
   ]
  },
@@ -891,6 +906,11 @@
     "id": "7-P15KEc8Ns",
     "title": "Påskeferie 2026 med bobil UTEN plan men endte opp HER på fricamping!!",
     "date": "2026-04-19"
+   },
+   {
+    "id": "yN9qFKfFRkg",
+    "title": "DETTE SKULLE JO IKKE SKJE! Påskeferien rundt Vänern tok en brå vending....",
+    "date": "2025-04-27"
    }
   ]
  },
@@ -1361,6 +1381,11 @@
     "id": "AQbkI8-hc-s",
     "title": "VI DRAR HJEM! Men først First Camp Torekov med gode venner!",
     "date": "2025-09-21"
+   },
+   {
+    "id": "Lrn4QGeOQ_w",
+    "title": "Med bobil fra Halden til Tyskland mot Italia! Problem med bilen! Sommerferie!",
+    "date": "2023-08-02"
    }
   ]
  },
@@ -1376,6 +1401,11 @@
     "id": "xwrBsYifi3I",
     "title": "VI REISER TIL TYSKLAND! Bli med oss og utforsk forskjellige aktiviteter i HAMBURG!",
     "date": "2024-01-14"
+   },
+   {
+    "id": "hz5XH7ocdDo",
+    "title": "VI REISER TIL… VEKK fra SNØ og KULDE til REGN og VARME... PROBLEMER med bilen! VLOGG",
+    "date": "2024-01-07"
    }
   ]
  },
@@ -1651,6 +1681,11 @@
     "id": "wTyFLeEyQHI",
     "title": "Vi lever i en drøm! Fricamper med utsikt mot havet",
     "date": "2024-09-23"
+   },
+   {
+    "id": "YlY_EaHvPQQ",
+    "title": "Vi trodde ferien var over! Utforsker Italia på ett par timer!",
+    "date": "2024-09-09"
    }
   ]
  },
@@ -1766,6 +1801,16 @@
     "id": "VOPShNQGQPc",
     "title": "Vi trodde Gardasjøen skulle bli enkelt!",
     "date": "2026-08-30"
+   },
+   {
+    "id": "1OmuvDkN9yU",
+    "title": "Vi får overraskelsesbesøk fra Norge til Italia! Barna forstår ingenting!",
+    "date": "2024-08-26"
+   },
+   {
+    "id": "pN3pZOy2rsE",
+    "title": "Noen ble sint på barna! Endelig fast plass!",
+    "date": "2024-08-19"
    }
   ]
  },
@@ -1781,6 +1826,11 @@
     "id": "qS3o9s6_9o8",
     "title": "Vi skulle ønske at vi hadde mer tid ved Iseosjøen...",
     "date": "2026-09-06"
+   },
+   {
+    "id": "pN3pZOy2rsE",
+    "title": "Noen ble sint på barna! Endelig fast plass!",
+    "date": "2024-08-19"
    }
   ]
  },
@@ -1811,6 +1861,456 @@
     "id": "YcqAR03hJjc",
     "title": "NÅ LEGGER VI KAMERA PÅ HYLLA – SISTE ETAPPE MED BOBILEN",
     "date": "2026-09-19"
+   }
+  ]
+ },
+ {
+  "name": "Giethoorn – Camperplaats Haamstede",
+  "country": "nl",
+  "type": "bobilparkering",
+  "lat": 52.728,
+  "lng": 6.076,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "PmTAa_6pMj0",
+    "title": "Vi blir skikkelig redde! 4 land på 2 dager! Vi smaker på historie!",
+    "date": "2024-07-29"
+   }
+  ]
+ },
+ {
+  "name": "Dinant – Camping de Dinant",
+  "country": "be",
+  "type": "camping",
+  "lat": 50.1902,
+  "lng": 5.0064,
+  "usikker": true,
+  "videos": [
+   {
+    "id": "PmTAa_6pMj0",
+    "title": "Vi blir skikkelig redde! 4 land på 2 dager! Vi smaker på historie!",
+    "date": "2024-07-29"
+   }
+  ]
+ },
+ {
+  "name": "Liverdun – Camping de la Moselle",
+  "country": "fr",
+  "type": "camping",
+  "lat": 48.7528,
+  "lng": 6.0607,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "PmTAa_6pMj0",
+    "title": "Vi blir skikkelig redde! 4 land på 2 dager! Vi smaker på historie!",
+    "date": "2024-07-29"
+   }
+  ]
+ },
+ {
+  "name": "Rimini",
+  "country": "it",
+  "type": "by",
+  "lat": 43.9465,
+  "lng": 12.6307,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "YlY_EaHvPQQ",
+    "title": "Vi trodde ferien var over! Utforsker Italia på ett par timer!",
+    "date": "2024-09-09"
+   }
+  ]
+ },
+ {
+  "name": "Italia in Miniatura, Rimini",
+  "country": "it",
+  "type": "severdighet",
+  "lat": 44.0914,
+  "lng": 12.5162,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "YlY_EaHvPQQ",
+    "title": "Vi trodde ferien var over! Utforsker Italia på ett par timer!",
+    "date": "2024-09-09"
+   }
+  ]
+ },
+ {
+  "name": "San Marino",
+  "country": "sm",
+  "type": "by",
+  "lat": 43.9459,
+  "lng": 12.4583,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "YlY_EaHvPQQ",
+    "title": "Vi trodde ferien var over! Utforsker Italia på ett par timer!",
+    "date": "2024-09-09"
+   }
+  ]
+ },
+ {
+  "name": "Flüelen",
+  "country": "ch",
+  "type": "sted",
+  "lat": 46.9027,
+  "lng": 8.6253,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "mLpzfZt2zqU",
+    "title": "Sveitsiske alper! PRISSJOKK og VARMESJOKK! Fullbooket overalt i Italia, HVA GJØR VI?",
+    "date": "2024-08-05"
+   }
+  ]
+ },
+ {
+  "name": "TCS Camping Sempach",
+  "country": "ch",
+  "type": "camping",
+  "lat": 47.1243,
+  "lng": 8.1881,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "mLpzfZt2zqU",
+    "title": "Sveitsiske alper! PRISSJOKK og VARMESJOKK! Fullbooket overalt i Italia, HVA GJØR VI?",
+    "date": "2024-08-05"
+   }
+  ]
+ },
+ {
+  "name": "Village & Glamping Riva Blu, Gardasjøen",
+  "country": "it",
+  "type": "camping",
+  "lat": 45.5143,
+  "lng": 10.5264,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "mLpzfZt2zqU",
+    "title": "Sveitsiske alper! PRISSJOKK og VARMESJOKK! Fullbooket overalt i Italia, HVA GJØR VI?",
+    "date": "2024-08-05"
+   }
+  ]
+ },
+ {
+  "name": "Monte Isola, Iseosjøen",
+  "country": "it",
+  "type": "sted",
+  "lat": 45.712,
+  "lng": 10.0822,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "2DmXp7uEcp0",
+    "title": "Vi forsov oss! Dagen har kommet og en trist avslutning..",
+    "date": "2024-09-02"
+   }
+  ]
+ },
+ {
+  "name": "Køge",
+  "country": "dk",
+  "type": "by",
+  "lat": 55.4565,
+  "lng": 12.1819,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "hz5XH7ocdDo",
+    "title": "VI REISER TIL… VEKK fra SNØ og KULDE til REGN og VARME... PROBLEMER med bilen! VLOGG",
+    "date": "2024-01-07"
+   }
+  ]
+ },
+ {
+  "name": "IKEA Uddevalla",
+  "country": "se",
+  "type": "bobilparkering",
+  "lat": 58.3564,
+  "lng": 11.8188,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "Lw-lLsZVf9w",
+    "title": "Vi reiser hit og sover på en PARKERINGEN til IKEA med bobilen! HVA KJØPER VI?",
+    "date": "2023-10-22"
+   }
+  ]
+ },
+ {
+  "name": "Camping de l'Arquebuse, Auxonne",
+  "country": "fr",
+  "type": "camping",
+  "lat": 47.1976,
+  "lng": 5.3819,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "LIgegp7yzfg",
+    "title": "Bobil fra Frankrike - Tyskland - Norge og hjem / Problemer med bobilen igjen 😩 / Camping",
+    "date": "2023-09-02"
+   }
+  ]
+ },
+ {
+  "name": "Stubbekøbing",
+  "country": "dk",
+  "type": "sted",
+  "lat": 54.8884,
+  "lng": 12.0382,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "LIgegp7yzfg",
+    "title": "Bobil fra Frankrike - Tyskland - Norge og hjem / Problemer med bobilen igjen 😩 / Camping",
+    "date": "2023-09-02"
+   }
+  ]
+ },
+ {
+  "name": "Zwenkau – Wohnmobilstellplatz am Hafen",
+  "country": "de",
+  "type": "bobilparkering",
+  "lat": 51.2343,
+  "lng": 12.3347,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "K2aWCbakSyw",
+    "title": "Bobil fra Tyskland til Østerrike! Ecoflow Delta 2 og bacon?",
+    "date": "2023-08-06"
+   },
+   {
+    "id": "Lrn4QGeOQ_w",
+    "title": "Med bobil fra Halden til Tyskland mot Italia! Problem med bilen! Sommerferie!",
+    "date": "2023-08-02"
+   }
+  ]
+ },
+ {
+  "name": "Calle, Rostock",
+  "country": "de",
+  "type": "sted",
+  "lat": 54.1234,
+  "lng": 12.1682,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "Lrn4QGeOQ_w",
+    "title": "Med bobil fra Halden til Tyskland mot Italia! Problem med bilen! Sommerferie!",
+    "date": "2023-08-02"
+   }
+  ]
+ },
+ {
+  "name": "Camping Hall in Tirol",
+  "country": "at",
+  "type": "camping",
+  "lat": 47.2782,
+  "lng": 11.4813,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "K2aWCbakSyw",
+    "title": "Bobil fra Tyskland til Østerrike! Ecoflow Delta 2 og bacon?",
+    "date": "2023-08-06"
+   }
+  ]
+ },
+ {
+  "name": "Camping Innsbruck/Völs",
+  "country": "at",
+  "type": "camping",
+  "lat": 47.2535,
+  "lng": 11.3268,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "K2aWCbakSyw",
+    "title": "Bobil fra Tyskland til Østerrike! Ecoflow Delta 2 og bacon?",
+    "date": "2023-08-06"
+   }
+  ]
+ },
+ {
+  "name": "Camping Verona Village",
+  "country": "it",
+  "type": "camping",
+  "lat": 45.3924,
+  "lng": 10.9943,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "51l373eaapU",
+    "title": "BESTE KAFFEN? Italiensk espressokoker i Italia??",
+    "date": "2023-08-09"
+   },
+   {
+    "id": "4cOIGB59pps",
+    "title": "Sunantha mister noe 😩 Louis Vuitton / Viser endelig skade 😭",
+    "date": "2023-08-09"
+   }
+  ]
+ },
+ {
+  "name": "Tellus, Råde",
+  "country": "no",
+  "type": "sted",
+  "lat": 59.3317,
+  "lng": 10.8423,
+  "usikker": true,
+  "videos": [
+   {
+    "id": "Y6NVo2apNPI",
+    "title": "NÅ SKAL DET BLI GODT OG VARMT!",
+    "date": "2024-01-22"
+   },
+   {
+    "id": "jOsWq1y3BJM",
+    "title": "Julegrøt hos Tellus råde! Finner bobilen jeg ønsker! Dethleffs med ordentlig sofa og Adria!👌🏻",
+    "date": "2023-12-13"
+   }
+  ]
+ },
+ {
+  "name": "Elly Gården, Malmö",
+  "country": "se",
+  "type": "bobilparkering",
+  "lat": 55.538,
+  "lng": 13.014,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "Af6lYOgJJDs",
+    "title": "Vi drar på oppdagelsesreise! Overrasker barna!",
+    "date": "2024-07-22"
+   }
+  ]
+ },
+ {
+  "name": "Wildeshausen – Stellplatz am Krandelbad",
+  "country": "de",
+  "type": "bobilparkering",
+  "lat": 52.8977,
+  "lng": 8.4276,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "Af6lYOgJJDs",
+    "title": "Vi drar på oppdagelsesreise! Overrasker barna!",
+    "date": "2024-07-22"
+   }
+  ]
+ },
+ {
+  "name": "First Camp Ekudden, Mariestad",
+  "country": "se",
+  "type": "camping",
+  "lat": 58.7157,
+  "lng": 13.7955,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "yN9qFKfFRkg",
+    "title": "DETTE SKULLE JO IKKE SKJE! Påskeferien rundt Vänern tok en brå vending....",
+    "date": "2025-04-27"
+   }
+  ]
+ },
+ {
+  "name": "Åråshult Camping",
+  "country": "se",
+  "type": "camping",
+  "lat": 58.9782,
+  "lng": 14.0176,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "yN9qFKfFRkg",
+    "title": "DETTE SKULLE JO IKKE SKJE! Påskeferien rundt Vänern tok en brå vending....",
+    "date": "2025-04-27"
+   }
+  ]
+ },
+ {
+  "name": "Åmål – ställplats Måkeberg",
+  "country": "se",
+  "type": "bobilparkering",
+  "lat": 59.0562,
+  "lng": 12.7085,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "yN9qFKfFRkg",
+    "title": "DETTE SKULLE JO IKKE SKJE! Påskeferien rundt Vänern tok en brå vending....",
+    "date": "2025-04-27"
+   }
+  ]
+ },
+ {
+  "name": "Fjell bru rasteplass",
+  "country": "no",
+  "type": "fricamping",
+  "lat": 59.1419,
+  "lng": 11.6316,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "-9-hMWlODo0",
+    "title": "Bort fra byen og inn i skogen og fricamping! Vi bytter ut den gamle tven og setter inn en hylle!",
+    "date": "2025-04-05"
+   }
+  ]
+ },
+ {
+  "name": "Stensjö Brygga, Hunnebostrand",
+  "country": "se",
+  "type": "sted",
+  "lat": 58.4412,
+  "lng": 11.3011,
+  "usikker": true,
+  "videos": [
+   {
+    "id": "GmSda8l4CR4",
+    "title": "En bobil helg med sykdom, dårlig vær, bastu og godt selskap!",
+    "date": "2025-03-02"
+   }
+  ]
+ },
+ {
+  "name": "Stenungsöns Resort & Camping",
+  "country": "se",
+  "type": "camping",
+  "lat": 58.067,
+  "lng": 11.8006,
+  "usikker": true,
+  "videos": [
+   {
+    "id": "GmSda8l4CR4",
+    "title": "En bobil helg med sykdom, dårlig vær, bastu og godt selskap!",
+    "date": "2025-03-02"
+   }
+  ]
+ },
+ {
+  "name": "Vita Sannars Camping, Mellerud",
+  "country": "se",
+  "type": "camping",
+  "lat": 58.689,
+  "lng": 12.517,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "Rg742pZ4g68",
+    "title": "Koser oss her!",
+    "date": "2024-06-02"
    }
   ]
  }
