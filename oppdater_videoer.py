@@ -54,7 +54,8 @@ def finn_stedsnavn(beskrivelse):
     for linje in beskrivelse.splitlines():
         linje = linje.strip()
         if linje.startswith("📍"):
-            navn += [n.strip() for n in re.split(r"[|;]", linje[1:]) if n.strip()]
+            linje = re.sub(r"^(sted|steder|place|places)\s*:\s*", "", linje[1:].strip(), flags=re.I)  # «📍 Sted: Bua, Sverige»
+            navn += [n.strip() for n in re.split(r"[|;]", linje) if n.strip()]
     return navn
 
 

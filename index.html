@@ -253,6 +253,26 @@
   .offer b { font-size: 1.02rem; }
   .offer small { color: var(--muted); font-size: .88rem; }
 
+  /* Support / Vipps */
+  .support {
+    display: grid; grid-template-columns: 1.3fr .7fr; gap: 50px; align-items: center;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 48px;
+  }
+  .support > * { min-width: 0; }
+  .support-note { color: var(--muted); margin-top: 14px; }
+  .vipps-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+    background: #ff5b24; color: #fff; border-radius: 18px; padding: 26px 22px;
+  }
+  .vipps-qr { width: min(200px, 100%); aspect-ratio: 1; background: #fff; border-radius: 12px; padding: 10px; margin-bottom: 10px; }
+  .vipps-name { font-weight: 700; letter-spacing: .02em; }
+  .vipps-nr { font-size: 2.4rem; line-height: 1.1; letter-spacing: .04em; }
+  .vipps-card small { font-size: .85rem; opacity: .92; }
+  .vipps-btn {
+    margin-top: 10px; background: #fff; color: #ff5b24; font-weight: 700; text-decoration: none;
+    padding: 10px 22px; border-radius: 99px;
+  }
+
   /* Socials */
   .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
   .social {
@@ -299,6 +319,7 @@
     .hero-photo { max-width: 340px; margin: 0 auto; width: 100%; }
     .about-grid, .video-grid, .social-grid, .gear, .collab, .shop { grid-template-columns: 1fr; }
     .shop { gap: 30px; }
+    .support { grid-template-columns: 1fr; gap: 30px; padding: 30px 22px; }
     .book-cover { width: min(240px, 70%); }
     .collab { gap: 36px; }
     .collab .btns { justify-content: flex-start; }
@@ -542,6 +563,27 @@
         <p data-en="Join the community, comment and share with friends.">Bli med i fellesskapet, kommenter og del med venner.</p>
         <span class="go" data-en="Like the page">Lik siden</span>
       </a>
+    </div>
+  </div>
+</section>
+
+<section id="stott-oss" style="padding-top:0">
+  <div class="wrap">
+    <div class="support reveal">
+      <div>
+        <span class="label" data-en="Support us">Støtt oss</span>
+        <h2 data-en="Want to support our journey? 🚐💛">Ønsker du å støtte reisen vår? 🚐💛</h2>
+        <p class="lead" data-en="If you'd like to chip in an amount of your choice, it helps keep us on the road making trips, food experiences and videos.">Vil du bidra med et valgfritt beløp, hjelper det oss å holde oss på veien og fortsette å lage reiser, matopplevelser og videoer.</p>
+        <p class="support-note" data-en="No expectations – we appreciate just as much that you watch, like and comment ❤️">Ingen forventninger – vi setter like stor pris på at du ser, liker og kommenterer ❤️</p>
+      </div>
+      <div class="vipps-card">
+        <!-- QR-koden fra Vipps-appen (Get Paid). Den peker til samme lenke som knappen under. -->
+        <img class="vipps-qr" src="vipps-qr.png" alt="QR-kode for å vippse Sunantha &amp; Morten">
+        <span class="vipps-name">Vipps</span>
+        <b class="vipps-nr">#47837</b>
+        <small data-en="Scan the code, or tap the button on your phone.">Skann koden, eller trykk på knappen hvis du er på mobilen.</small>
+        <a class="vipps-btn" href="https://qr.vipps.no/vp/WXDMhY3cM" target="_blank" rel="noopener" data-en="Open Vipps">Åpne Vipps</a>
+      </div>
     </div>
   </div>
 </section>
