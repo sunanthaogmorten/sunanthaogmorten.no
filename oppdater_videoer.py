@@ -5,13 +5,26 @@ eller for hånd med:  python3 oppdater_videoer.py
 import json
 import re
 import html
+import time
 import urllib.request
 
 CHANNEL_ID = "UC_PqG28Sm1SOlMm27SRq1rQ"
 FEED = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
 
-with urllib.request.urlopen(FEED, timeout=30) as r:
-    xml = r.read().decode("utf-8")
+# YouTube-feeden svarer av og til med feil i noen minutter. Prøv flere ganger,
+# og behold forrige videos.json hvis den fortsatt ikke svarer.
+xml = None
+for forsok in range(1, 6):
+    try:
+        with urllib.request.urlopen(FEED, timeout=30) as r:
+            xml = r.read().decode("utf-8")
+        break
+    except Exception as e:
+        print(f"Forsøk {forsok} feilet: {e}")
+        time.sleep(30 * forsok)
+if xml is None:
+    print("YouTube svarte ikke – beholder forrige videos.json")
+    raise SystemExit(0)
 
 videos = []
 for entry in re.findall(r"<entry>(.*?)</entry>", xml, re.S):
