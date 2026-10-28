@@ -122,6 +122,18 @@
   .stats { display: flex; gap: 36px; margin-top: 32px; flex-wrap: wrap; }
   .stat b { display: block; font-family: Fraunces, serif; font-size: 2rem; }
   .stat span { color: var(--muted); font-size: .9rem; }
+  .about-more { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 70px; }
+  .about-pic { margin: 0; }
+  .about-pic img { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: var(--radius); display: block; box-shadow: 0 24px 50px -30px rgba(42,27,61,.5); }
+  .about-pic figcaption { color: var(--muted); font-size: .9rem; margin-top: 10px; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px; }
+  .fact { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .fact-ico { font-size: 1.6rem; }
+  .fact h3 { font-family: Fraunces, serif; font-size: 1.35rem; margin: 8px 0 8px; }
+  .fact p, .fact li { color: var(--muted); font-size: .97rem; }
+  .fact ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .fact li b { color: var(--ink); }
+  @media (max-width: 860px) { .about-more, .facts { grid-template-columns: 1fr; } .about-more { margin-top: 44px; } }
 
   /* Dark sections */
   .dark { background: var(--deep); color: #fff; border-radius: 40px; margin: 0 12px; }
@@ -440,12 +452,45 @@
       <span class="label" data-en="About us">Om oss</span>
       <h2 data-en="Hi, we're Sunantha and Morten!">Hei, vi er Sunantha og Morten!</h2>
       <p class="lead" data-en="We're a couple with a shared passion for travel, food and experiences. With our motorhome as our home on wheels, we explore new places – from the fjords and Trollstigen in Norway and charming fishing villages in Sweden, to Lake Garda and Cinque Terre in Italy.">Vi er et par med en felles lidenskap for reiser, mat og opplevelser. Med bobilen som vårt mobile hjem utforsker vi nye steder – fra fjordene og Trollstigen i Norge og koselige fiskebyer i Sverige, til Gardasjøen og Cinque Terre i Italia.</p>
-      <p class="lead" style="margin-top:14px" data-en="We show it all as it is: the beautiful views, the good meals, the best campsites – and the times things don't quite go to plan. Follow us on YouTube for new videos, and on Instagram and Facebook for what's happening right now.">Vi viser det hele som det er: de vakre utsiktene, de gode måltidene, de beste campingplassene – og de gangene ting ikke går helt etter planen. Følg oss på YouTube for nye videoer, og på Instagram og Facebook for det som skjer akkurat nå.</p>
+      <p class="lead" style="margin-top:14px" data-en="We met through work, and home is Halden. We both work full time – the rest of the time, we're usually on the road. We show it all as it is: the beautiful views, the good meals, the best campsites – and the times things don't quite go to plan.">Vi møttes gjennom jobben, og hjemme er Halden. Vi jobber begge fullt, og resten av tiden er vi som regel på tur. Vi viser det hele som det er: de vakre utsiktene, de gode måltidene, de beste campingplassene – og de gangene ting ikke går helt etter planen.</p>
       <div class="stats">
         <div class="stat"><b>5k+</b><span data-en="subscribers">abonnenter</span></div>
-        <div class="stat"><b>1</b><span data-en="motorhome">bobil</span></div>
-        <div class="stat"><b>∞</b><span data-en="adventures">eventyr</span></div>
+        <div class="stat"><b>12</b><span data-en="countries">land</span></div>
+        <div class="stat"><b>2022</b><span data-en="first video">første video</span></div>
       </div>
+    </div>
+  </div>
+
+  <div class="wrap about-more">
+    <figure class="about-pic reveal">
+      <img src="bobil.jpg" alt="Bobilen vår, en Challenger 240 Open Edition, på en campingplass" loading="lazy">
+      <figcaption data-en="Our home on wheels: Challenger 240 Open Edition">Hjemmet vårt på hjul: Challenger 240 Open Edition</figcaption>
+    </figure>
+    <figure class="about-pic reveal">
+      <img src="matlaging.jpg" alt="Sunantha lager mat for et publikum utenfor bobilen" loading="lazy">
+      <figcaption data-en="Sunantha cooks 99% of the time – here for an audience">Sunantha lager maten 99 % av tiden – her for publikum</figcaption>
+    </figure>
+  </div>
+
+  <div class="wrap facts">
+    <div class="fact reveal">
+      <span class="fact-ico">🚐</span>
+      <h3 data-en="The motorhome">Bobilen</h3>
+      <p data-en="A Challenger 240 Open Edition (2023 model), ours since August 2025. Why a motorhome? A freer life – and we always bring our home with us.">En Challenger 240 Open Edition (2023-modell), som vi har hatt siden august 2025. Hvorfor bobil? Et friere liv – og vi har med oss hjemmet hele tiden.</p>
+    </div>
+    <div class="fact reveal">
+      <span class="fact-ico">🎬</span>
+      <h3 data-en="The channel">Kanalen</h3>
+      <p data-en="Started in July 2022. We both film. Morten edits and runs YouTube, while Sunantha runs Instagram and Facebook.">Startet i juli 2022. Vi filmer begge to. Morten redigerer og har ansvaret for YouTube, mens Sunantha har ansvaret for Instagram og Facebook.</p>
+    </div>
+    <div class="fact reveal">
+      <span class="fact-ico">❤️</span>
+      <h3 data-en="Favourites">Favoritter</h3>
+      <ul>
+        <li data-en="&lt;b&gt;Place:&lt;/b&gt; Olden in Norway"><b>Sted:</b> Olden i Norge</li>
+        <li data-en="&lt;b&gt;Country:&lt;/b&gt; Italy"><b>Land:</b> Italia</li>
+        <li data-en="&lt;b&gt;Food:&lt;/b&gt; Asian – and pizza"><b>Mat:</b> Asiatisk – og pizza</li>
+      </ul>
     </div>
   </div>
 </section>
