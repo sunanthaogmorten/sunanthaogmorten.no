@@ -604,8 +604,7 @@
       </div>
       <a class="btn btn-ghost" href="https://www.youtube.com/@Sunantha.Morten/videos" target="_blank" rel="noopener" data-en="All videos →">Alle videoer →</a>
     </div>
-    <!-- Den store videoen viser alltid den nyeste opplastingen på kanalen.
-         De to små hentes fra videos.json, som oppdateres automatisk (se oppdater_videoer.py). -->
+    <!-- Alle tre videoene hentes fra videos.json, som oppdateres automatisk uten shorts (se oppdater_videoer.py). -->
     <div class="video-grid reveal">
       <div class="vid" id="vid-main"></div>
       <div class="video-side">
@@ -771,7 +770,6 @@
 </div>
 
 <script>
-  const CHANNEL_ID = 'UC_PqG28Sm1SOlMm27SRq1rQ';
   // Kart og galleri kan skjules mens vi jobber med dem. Sett til true for å vise dem.
   // (Lokal forhåndsvisning av kartet: legg til ?kart=1 i adressen.)
   const VIS_KART = true;
@@ -842,16 +840,15 @@
     el.innerHTML = `<iframe src="${src}" title="${title || 'YouTube'}" loading="lazy"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   }
-  // Den store spilleren viser kanalens opplastinger – nyeste video først, alltid oppdatert.
-  embed(document.getElementById('vid-main'),
-    `https://www.youtube-nocookie.com/embed/videoseries?list=UU${CHANNEL_ID.slice(2)}`, 'Siste video');
-  // De to små hentes fra videos.json (oppdateres automatisk). Faller tilbake på faste videoer.
-  const fallback = [{ id: 'uYA4yXJop7A' }, { id: 'lHydShayv9g' }];
+  // Alle tre rutene hentes fra videos.json (oppdateres automatisk, uten shorts).
+  // Kanalens opplastingsliste tas ikke med, fordi den også inneholder shorts. Faller tilbake på faste videoer.
+  const fallback = [{ id: 'rDF9EoKbGB8' }, { id: 'uYA4yXJop7A' }, { id: 'lHydShayv9g' }];
   fetch('videos.json', { cache: 'no-cache' })
     .then(r => r.ok ? r.json() : Promise.reject())
-    .then(list => list.length >= 3 ? list.slice(1, 3) : fallback)
+    .then(list => list.length >= 3 ? list.slice(0, 3) : fallback)
     .catch(() => fallback)
-    .then(([a, b]) => {
+    .then(([hoved, a, b]) => {
+      embed(document.getElementById('vid-main'), `https://www.youtube-nocookie.com/embed/${hoved.id}`, hoved.title);
       embed(document.getElementById('vid-2'), `https://www.youtube-nocookie.com/embed/${a.id}`, a.title);
       embed(document.getElementById('vid-3'), `https://www.youtube-nocookie.com/embed/${b.id}`, b.title);
     });

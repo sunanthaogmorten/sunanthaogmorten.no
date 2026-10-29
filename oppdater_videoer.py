@@ -36,7 +36,8 @@ def hent_feed():
 def les_videoer(xml):
     videos = []
     for entry in re.findall(r"<entry>(.*?)</entry>", xml, re.S):
-        if "/shorts/" in entry:
+        # Shorts skal aldri vises på nettsiden
+        if "/shorts/" in entry or "#shorts" in entry.lower():
             continue
         beskrivelse = re.search(r"<media:description>(.*?)</media:description>", entry, re.S)
         videos.append({

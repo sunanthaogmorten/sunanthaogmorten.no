@@ -2,7 +2,7 @@ name: Oppdater videoer
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # hver dag kl. 06 (UTC)
+    - cron: "15 */3 * * *"   # hver 3. time, så nye videoer kommer raskt ut på nettsiden
   workflow_dispatch:
 
 permissions:
