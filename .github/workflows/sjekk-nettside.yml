@@ -24,26 +24,38 @@ jobs:
             exit 1
           fi
 
-          sjekk() {
+          sjekk_no() {
             # Hovedsiden svarer over HTTPS og har innholdet vi forventer
             html=$(curl -fsSL --max-time 20 https://sunanthaogmorten.no/) || { echo "sunanthaogmorten.no svarer ikke (eller HTTPS-feil)"; return 1; }
-            echo "$html" | grep -q "Sunantha" || { echo "Forsiden mangler forventet innhold"; return 1; }
-            echo "$html" | grep -q "payhip.com/b/" || { echo "Kjøpsknappen for oppskriftsheftet mangler"; return 1; }
+            grep -q "Sunantha" <<< "$html" || { echo "Forsiden mangler forventet innhold"; return 1; }
+            grep -q "payhip.com/b/" <<< "$html" || { echo "Kjøpsknappen for oppskriftsheftet mangler"; return 1; }
+          }
 
+          sjekk_com() {
             # .com sender videre til .no
             mal=$(curl -s -o /dev/null -L --max-time 20 -w '%{url_effective}' http://sunanthaogmorten.com/)
             case "$mal" in
               https://sunanthaogmorten.no*) ;;
               *) echo "sunanthaogmorten.com sender ikke videre til .no (havnet på: $mal)"; return 1 ;;
             esac
-            echo "Alt OK"
           }
 
           # Prøv tre ganger med litt pause, så et kort blaff ikke gir falsk alarm
+          no_ok=false
           for forsok in 1 2 3; do
-            if sjekk; then exit 0; fi
+            if sjekk_no; then no_ok=true; break; fi
             echo "Forsøk $forsok feilet, prøver igjen om 60 sekunder …"
             sleep 60
           done
-          echo "::error::Nettsiden ser ut til å være nede eller feil satt opp. Se loggen over."
-          exit 1
+          if [ "$no_ok" != true ]; then
+            echo "::error::Nettsiden ser ut til å være nede eller feil satt opp. Se loggen over."
+            exit 1
+          fi
+
+          # .com-videresendingen hos domeneverten svarer av og til ikke GitHubs maskiner i USA,
+          # selv om den virker fra Norge. Det gir bare en merknad i loggen, ikke e-post.
+          for forsok in 1 2 3; do
+            if sjekk_com; then echo "Alt OK"; exit 0; fi
+            sleep 60
+          done
+          echo "::warning::sunanthaogmorten.com svarte ikke på videresending nå (sunanthaogmorten.no virker)."
