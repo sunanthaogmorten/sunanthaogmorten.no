@@ -89,6 +89,16 @@ def avstand_km(a_lat, a_lng, b_lat, b_lng):
     return math.hypot(dx, dy)
 
 
+def kjent_sted(steder, navn):
+    """Et sted på kartet der hovednavnet står som eget ord i navn, f.eks. «Apelviken» i «Destination Apelviken, Varberg»"""
+    tekst = navn.lower()
+    for s in steder:
+        hoved = s["name"].split(",")[0].split("–")[0].strip().lower()
+        if len(hoved) >= 4 and re.search(rf"\b{re.escape(hoved)}\b", tekst):
+            return s
+    return None
+
+
 def oppdater_steder(videos, fil="steder.json", oppslag=slaa_opp):
     with open(fil, encoding="utf-8") as f:
         steder = json.load(f)
@@ -98,13 +108,20 @@ def oppdater_steder(videos, fil="steder.json", oppslag=slaa_opp):
         if video["id"] in kjente:
             continue
         for navn in finn_stedsnavn(video["description"]):
+            ny_video = {"id": video["id"], "title": video["title"], "date": video["published"][:10]}
             treff = oppslag(navn)
             if not treff:
-                print(f"Fant ikke «{navn}» (video {video['id']}) – legg det inn for hånd")
+                # Fant ikke stedet (f.eks. skrivefeil i 📍-linjen)? Se om det allerede ligger på kartet.
+                kjent = kjent_sted(steder, navn)
+                if kjent:
+                    kjent["videos"].insert(0, ny_video)
+                    print(f"La til video {video['id']} på «{kjent['name']}» (fant ikke «{navn}», men kjente igjen stedet)")
+                    endret = True
+                else:
+                    print(f"Fant ikke «{navn}» (video {video['id']}) – legg det inn for hånd")
                 continue
             lat, lng, land = treff
             vis_navn = navn.split(",")[0].strip()
-            ny_video = {"id": video["id"], "title": video["title"], "date": video["published"][:10]}
             # Samme sted som før (samme navn eller under 1 km unna)? Legg videoen til der.
             kjent = next((s for s in steder if s["name"].lower() == vis_navn.lower()
                           or avstand_km(s["lat"], s["lng"], lat, lng) < 1), None)
