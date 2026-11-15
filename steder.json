@@ -2318,5 +2318,20 @@
     "date": "2024-06-02"
    }
   ]
+ },
+ {
+  "name": "STEDET",
+  "country": "no",
+  "type": "sted",
+  "lat": 59.3303,
+  "lng": 7.3734,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "0cd8MERwmtE",
+    "title": "Var lysshowet i Smögen verdt 250 kr?",
+    "date": "2026-11-15"
+   }
+  ]
  }
 ]
