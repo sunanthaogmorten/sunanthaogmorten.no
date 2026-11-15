@@ -57,6 +57,8 @@ def finn_stedsnavn(beskrivelse):
         if linje.startswith("📍"):
             linje = re.sub(r"^(sted|steder|place|places)\s*:\s*", "", linje[1:].strip(), flags=re.I)  # «📍 Sted: Bua, Sverige»
             navn += [n.strip() for n in re.split(r"[|;]", linje) if n.strip()]
+    # Malteksten «📍 STEDET» som ikke er byttet ut, er ikke et sted
+    navn = [n for n in navn if n.strip(" .").lower() not in ("stedet", "sted", "steder", "place", "places")]
     return navn
 
 
