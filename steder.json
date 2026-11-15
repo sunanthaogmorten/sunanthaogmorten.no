@@ -1053,11 +1053,6 @@
   "usikker": false,
   "videos": [
    {
-    "id": "0cd8MERwmtE",
-    "title": "Var lysshowet i Smögen verdt 250 kr?",
-    "date": "2026-11-15"
-   },
-   {
     "id": "UVgnmNKsSNU",
     "title": "Vi avbrøt påskeferie 2026 med bobil….IGJEN!!!!",
     "date": "2026-04-26"
@@ -2321,6 +2316,21 @@
     "id": "Rg742pZ4g68",
     "title": "Koser oss her!",
     "date": "2024-06-02"
+   }
+  ]
+ },
+ {
+  "name": "Smögen – Sotenäs Camping",
+  "country": "se",
+  "type": "camping",
+  "lat": 58.3862,
+  "lng": 11.2597,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "0cd8MERwmtE",
+    "title": "Var lysshowet i Smögen verdt 250 kr?",
+    "date": "2026-11-15"
    }
   ]
  }
