@@ -2333,5 +2333,20 @@
     "date": "2026-11-15"
    }
   ]
+ },
+ {
+  "name": "Lohyllan",
+  "country": "se",
+  "type": "sted",
+  "lat": 58.8571,
+  "lng": 11.5486,
+  "usikker": false,
+  "videos": [
+   {
+    "id": "fgdtDhkHp9s",
+    "title": "STORMEN jagde oss bort. Nå er vi tilbake",
+    "date": "2026-11-22"
+   }
+  ]
  }
 ]
